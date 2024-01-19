@@ -4,3 +4,4 @@ Group A2 from Winter 2024
 Maren Rogers:
 Scott MacAulay:
 Angelica Billiones: angelicab20
+Jheaney Perico: JheaneyPerico
