@@ -2,5 +2,5 @@
 Group A2 from Winter 2024
 # Team Members
 Maren Rogers: rogersm26
-Scott MacAulay: John-Smith088
+Scott MacAulay:
 Angelica Billiones: angelicab20
