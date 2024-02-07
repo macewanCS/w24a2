@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.navigation.Navigation
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,6 +46,9 @@ class account : Fragment() {
             Log.i("TAG", "Home page clicked!")
             Navigation.findNavController(view).navigate(R.id.to_homePage)
         }
+
+        val profile_pic: ImageView = view.findViewById(R.id.profilepic)
+        profile_pic.setImageResource(R.drawable.pfp)
         return view
     }
 
