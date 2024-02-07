@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckedTextView
 import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,5 +24,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //CheckedTextView() checkedTextView = findViewById(R.id.Session1)
     }
 }
