@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.navigation.Navigation
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.database
 import org.w3c.dom.Text
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,14 +53,28 @@ class login : Fragment() {
         val usernameInput: EditText = view.findViewById(R.id.EmailAddress)
         val passwordInput: EditText = view.findViewById(R.id.Password)
 
+        val database = Firebase.database("https://tutor-application-410b6-default-rtdb.firebaseio.com/")
+
         login_button.setOnClickListener{
+            var auth = FirebaseAuth.getInstance()
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
 
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 Log.i("TAG", "$username: $password")
-                Navigation.findNavController(view).navigate(R.id.account_login)
+                auth.signInWithEmailAndPassword(username, password)
+                    .addOnCompleteListener{task ->
+                        if(task.isSuccessful){
+                            Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            Navigation.findNavController(view).navigate(R.id.account_login)
+                        } else {
+                            Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
             } else {
+                Toast.makeText(requireContext(), "Please fill in all fields.", Toast.LENGTH_SHORT).show()
                 Log.i("TAG", "Username or password left blank")
             }
         }
