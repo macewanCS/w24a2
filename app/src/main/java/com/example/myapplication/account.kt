@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.navigation.Navigation
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,15 +41,37 @@ class account : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
-        val tmp_button: Button = view.findViewById(R.id.sessions)
-
-        tmp_button.setOnClickListener{
-            Log.i("TAG", "Home page clicked!")
-            Navigation.findNavController(view).navigate(R.id.to_homePage)
-        }
-
         val profile_pic: ImageView = view.findViewById(R.id.profilepic)
         profile_pic.setImageResource(R.drawable.pfp)
+
+        val navbar: BottomNavigationView = view.findViewById(R.id.bottomNavigationView)
+
+        navbar.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.calendar -> {
+                    //Navigation.findNavController(view).navigate(R.id.to_login)
+                    true
+                }
+                R.id.messages -> {
+                    //Navigation.findNavController(view).navigate(R.id.to_login)
+                    true
+                }
+                R.id.home -> {
+                    Navigation.findNavController(view).navigate(R.id.to_homePage)
+                    true
+                }
+                R.id.email -> {
+                    //Navigation.findNavController(view).navigate(R.id.to_login)
+                    true
+                }
+                R.id.account -> {
+                    //Navigation.findNavController(view).navigate(R.id.to_login)
+                    true
+                } else -> {
+                    false
+                }
+            }
+        }
         return view
     }
 

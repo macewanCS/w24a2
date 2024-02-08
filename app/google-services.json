@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "868725928747",
-    "project_id": "tutor-app-4c827",
-    "storage_bucket": "tutor-app-4c827.appspot.com"
+    "project_number": "258960403732",
+    "firebase_url": "https://tutor-application-410b6-default-rtdb.firebaseio.com",
+    "project_id": "tutor-application-410b6",
+    "storage_bucket": "tutor-application-410b6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:868725928747:android:bdf3739c134069b3ae4b6e",
+        "mobilesdk_app_id": "1:258960403732:android:70763a3f452d6858ca2601",
         "android_client_info": {
           "package_name": "com.example.myapplication"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC6RZZGJBVTVoo0LZuxph1G3bRgWUitISs"
+          "current_key": "AIzaSyCuZ_tVNx_y_jpUTRVxNoEn7ELmj0i8CyY"
         }
       ],
       "services": {

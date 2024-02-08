@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
 import com.google.firebase.Firebase
@@ -66,7 +67,6 @@ class login : Fragment() {
                     .addOnCompleteListener{task ->
                         if(task.isSuccessful){
                             Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(requireContext(), MainActivity::class.java)
                             Navigation.findNavController(view).navigate(R.id.account_login)
                         } else {
                             Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
@@ -77,7 +77,15 @@ class login : Fragment() {
                 Toast.makeText(requireContext(), "Please fill in all fields.", Toast.LENGTH_SHORT).show()
                 Log.i("TAG", "Username or password left blank")
             }
+
         }
+
+        //make register text clickable here
+        val register: TextView = view.findViewById(R.id.register)
+        register.setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.to_signup)
+        }
+
         return view
     }
 
