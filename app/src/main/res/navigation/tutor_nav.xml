@@ -13,6 +13,9 @@
         <action
             android:id="@+id/account_login"
             app:destination="@id/account2" />
+        <action
+            android:id="@+id/to_signup"
+            app:destination="@id/signup" />
     </fragment>
     <fragment
         android:id="@+id/homePage"
@@ -27,5 +30,14 @@
         <action
             android:id="@+id/to_homePage"
             app:destination="@id/homePage" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup"
+        android:name="com.example.myapplication.signup"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/to_login"
+            app:destination="@id/login" />
     </fragment>
 </navigation>
