@@ -45,6 +45,7 @@ class account : Fragment() {
         profile_pic.setImageResource(R.drawable.pfp)
 
         val navbar: BottomNavigationView = view.findViewById(R.id.bottomNavigationView)
+        navbar.selectedItemId = R.id.account
 
         navbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
