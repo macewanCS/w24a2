@@ -10,11 +10,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.Navigation
+import com.google.android.play.integrity.internal.m
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
+import org.mindrot.jbcrypt.BCrypt
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +30,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [signup.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class signup : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -46,57 +51,103 @@ class signup : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_signup, container, false)
 
+        //get all the values of the elements on the login page
         val register_button: Button = view.findViewById(R.id.register_btn)
-
         val firstNameInput: EditText = view.findViewById(R.id.FirstName)
         val lastNameInput: EditText = view.findViewById(R.id.LastName)
         val emailInput: EditText = view.findViewById(R.id.EmailAddress)
         val passwordInput: EditText = view.findViewById(R.id.Password)
 
         register_button.setOnClickListener{
-            var firstName = firstNameInput.text.toString()
-            var lastName = lastNameInput.text.toString()
-            var email = emailInput.text.toString()
-            var password = passwordInput.text.toString()
+            val firstName = firstNameInput.text.toString()
+            val lastName = lastNameInput.text.toString()
+            val email = emailInput.text.toString()
+            val password = passwordInput.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty() && firstName.isNotEmpty() && lastName.isNotEmpty()) {
-                Log.i("TAG", "$email: $password $firstName $lastName")
-
-                val db = FirebaseDatabase.getInstance("https://tutor-application-410b6-default-rtdb.firebaseio.com/")
-                val users = db.getReference("users")
-
-                users.updateChildren(mapOf("users" to HashMap<String, Any>())).addOnCompleteListener{task ->
-                    if (task.isSuccessful){
-                        val user = User(firstName, lastName, email, password)
-                        val newUserRef = users.push()
-
-                        newUserRef.setValue(user).addOnSuccessListener {
-                            val firebaseAuth = FirebaseAuth.getInstance()
-                            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(requireContext(), "Successfully registered!", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(requireContext(), "Signup Failed", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                            firstName = ""
-                            lastName = ""
-                            email = ""
-                            password = ""
-                            Navigation.findNavController(view).navigate(R.id.to_login)
-                        }.addOnFailureListener{
-                            Toast.makeText(requireContext(), "Registration Failed", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Log.e("TAG", "Failed to create 'users' path", task.exception)
-                    }
-                }
-            } else {
-                Toast.makeText(requireContext(), "Please fill in all fields.", Toast.LENGTH_SHORT).show()
-                Log.i("TAG", "One or more fields left blank")
-            }
+            //register the user, both in database and firebase authentication
+            registerUser(email, password, firstName, lastName)
+            //clear the input fields
+            clearInputFields(emailInput, passwordInput, firstNameInput, lastNameInput)
+            //navigate back to the login page
+            Navigation.findNavController(view).navigate(R.id.to_login)
         }
         return view
+    }
+
+    private fun encryptPassword(password: String): String {
+        val salt = BCrypt.gensalt()
+        return BCrypt.hashpw(password, salt)
+    }
+
+    private fun verifyPassword(plainPass: String, hashedPass: String): Boolean {
+        return BCrypt.checkpw(plainPass, hashedPass)
+    }
+
+    private fun registerUser(email: String, password: String, firstName: String, lastName: String) {
+        //validate the input fields to ensure they are not blank
+        if (validateInputFields(email, password, firstName, lastName)) {
+            createUser(email, password, firstName, lastName)
+        } else {
+            Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            Log.i("TAG", "One or more fields left blank")
+        }
+    }
+
+    private fun storeUserInDatabase(email: String, password: String, firstName: String, lastName: String) {
+        //get the database info to store user
+        val userID = FirebaseAuth.getInstance().currentUser?.uid
+        if (userID != null) {
+            //get the reference(pointer) to the database and the 'users' object within the database
+            val usersRef = FirebaseDatabase.getInstance("https://tutor-application-410b6-default-rtdb.firebaseio.com/").getReference("users")
+            //here get the reference to a new child using the userID of the current user that has been authenticated in the database
+            val userRef = usersRef.child(userID)
+
+            //created the hashed password to store
+            val hashedPass = encryptPassword(password)
+
+            //create a new user object
+            val user = User(firstName, lastName, email, hashedPass)
+
+            userRef.setValue(user).addOnSuccessListener {
+                Toast.makeText(requireContext(), "Successfully Registered!", Toast.LENGTH_SHORT).show()
+                Log.d("TAG", "User was added to the realtime database")
+            }.addOnFailureListener{ databaseError ->
+                val error = databaseError.message
+                Toast.makeText(requireContext(), "Failed to store user data: $error", Toast.LENGTH_SHORT).show()
+                Log.e("TAG", "Failed to store user data in the database: $error", databaseError)
+            }
+        } else {
+            Log.d("TAG", "UserID is null, $userID")
+        }
+    }
+
+    private fun validateInputFields(email: String, password: String, firstName: String, lastName: String): Boolean {
+        if (email.isNotEmpty() && password.isNotEmpty() && firstName.isNotEmpty() && lastName.isNotEmpty()){
+            Log.d("TAG", "$email, $password, $firstName, $lastName")
+            return true
+        }
+        return false
+    }
+
+    private fun createUser(email: String, password: String, firstName: String, lastName: String){
+        val dbauth = FirebaseAuth.getInstance()
+        dbauth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {task ->
+            if (task.isSuccessful) {
+                storeUserInDatabase(email, password, firstName, lastName)
+                Log.d("TAG", "User successfully registered on firebase")
+            } else {
+                val error = task.exception?.message
+                Toast.makeText(requireContext(), "Signup Failed: $error", Toast.LENGTH_SHORT).show()
+                Log.e("TAG", "Signup failed: $error",task.exception)
+            }
+        }
+    }
+
+    private fun clearInputFields(email: EditText, password: EditText, firstName: EditText, lastName: EditText) {
+        email.text.clear()
+        password.text.clear()
+        firstName.text.clear()
+        lastName.text.clear()
     }
 
     companion object {

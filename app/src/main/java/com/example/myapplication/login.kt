@@ -49,15 +49,35 @@ class login : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
-        val login_button: Button = view.findViewById(R.id.login_btn)
-
         val usernameInput: EditText = view.findViewById(R.id.EmailAddress)
         val passwordInput: EditText = view.findViewById(R.id.Password)
 
-        val database = Firebase.database("https://tutor-application-410b6-default-rtdb.firebaseio.com/")
+        //init the login button
+        initLoginBtn(view, usernameInput, passwordInput)
 
+        //init the clickable sign up text
+        initSignUpText(view)
+
+
+        return view
+    }
+
+    private fun initSignUpText(view: View) {
+        //make register text clickable here
+        val register: TextView = view.findViewById(R.id.register)
+        register.setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.to_signup)
+        }
+    }
+
+    private fun initLoginBtn(view: View, usernameInput: EditText, passwordInput: EditText) {
+        //get a reference to the login button
+        val login_button: Button = view.findViewById(R.id.login_btn)
+
+        //initialize the login button
         login_button.setOnClickListener{
-            var auth = FirebaseAuth.getInstance()
+            val auth = FirebaseAuth.getInstance()
+
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
 
@@ -79,14 +99,6 @@ class login : Fragment() {
             }
 
         }
-
-        //make register text clickable here
-        val register: TextView = view.findViewById(R.id.register)
-        register.setOnClickListener{
-            Navigation.findNavController(view).navigate(R.id.to_signup)
-        }
-
-        return view
     }
 
     companion object {
