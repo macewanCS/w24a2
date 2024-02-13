@@ -16,7 +16,7 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [homePage.newInstance] factory method to
+ * Use the [calendar.newInstance] factory method to
  * create an instance of this fragment.
  */
 class calendar : Fragment() {
