@@ -16,10 +16,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [homePage.newInstance] factory method to
+ * Use the [calendar.newInstance] factory method to
  * create an instance of this fragment.
  */
-class homePage : Fragment() {
+class calendar : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -37,15 +37,15 @@ class homePage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home_page, container, false)
+        val view = inflater.inflate(R.layout.fragment_calendar, container, false)
 
         val navbar: BottomNavigationView = view.findViewById(bottomNavigationView)
-        navbar.selectedItemId = R.id.home
+        navbar.selectedItemId = R.id.calendar
 
         navbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.calendar -> {
-                    Navigation.findNavController(view).navigate(R.id.from_home_to_calendar)
+                    //Navigation.findNavController(view).navigate(R.id.from_home_to_calendar)
                     true
                 }
 
@@ -55,7 +55,7 @@ class homePage : Fragment() {
                 }
 
                 R.id.home -> {
-                    //already here, does nothing
+                    Navigation.findNavController(view).navigate(R.id.calendar_to_homePage)
                     true
                 }
 
@@ -65,7 +65,7 @@ class homePage : Fragment() {
                 }
 
                 R.id.account -> {
-                    Navigation.findNavController(view).navigate(R.id.from_home_to_account)
+                    Navigation.findNavController(view).navigate(R.id.calendar_to_account2)
                     true
                 }
 
@@ -73,7 +73,7 @@ class homePage : Fragment() {
                     false
                 }
             }
-    }
+        }
         return view
     }
 
@@ -89,7 +89,7 @@ class homePage : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            homePage().apply {
+            calendar().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
