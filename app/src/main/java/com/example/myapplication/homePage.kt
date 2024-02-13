@@ -45,7 +45,7 @@ class homePage : Fragment() {
         navbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.calendar -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
+                    Navigation.findNavController(view).navigate(R.id.from_home_to_calendar)
                     true
                 }
 

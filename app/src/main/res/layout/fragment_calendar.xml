@@ -32,7 +32,15 @@
         android:layout_height="56dp"
         android:layout_marginStart="284dp"
         android:layout_marginTop="408dp"
+        android:onClick="buttonSaveEvent"
         android:text="@string/save_event"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/bottomtoolbar"
+        layout="@layout/bottom_navigator"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

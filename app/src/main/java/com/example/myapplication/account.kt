@@ -50,7 +50,7 @@ class account : Fragment() {
         navbar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.calendar -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
+                    Navigation.findNavController(view).navigate(R.id.account_to_calendar)
                     true
                 }
                 R.id.messages -> {
