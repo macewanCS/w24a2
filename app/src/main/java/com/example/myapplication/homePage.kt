@@ -42,6 +42,7 @@ class homePage : Fragment() {
 
         //start the bottom navigation bar functionality
         navBarNavigation(view, findNavController())
+        
         return view
     }
 
