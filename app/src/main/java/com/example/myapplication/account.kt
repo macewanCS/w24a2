@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.myapplication.navBarNavigation
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,40 +43,20 @@ class account : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
-        val profile_pic: ImageView = view.findViewById(R.id.profilepic)
-        profile_pic.setImageResource(R.drawable.pfp)
+        //setup the profile picture
+        profilePictureSetup(view)
 
-        val navbar: BottomNavigationView = view.findViewById(R.id.bottomNavigationView)
-        navbar.selectedItemId = R.id.account
+        //start the bottom navigation bar functionality
+        navBarNavigation(view, findNavController())
 
-        navbar.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.calendar -> {
-                    Navigation.findNavController(view).navigate(R.id.account_to_calendar)
-                    true
-                }
-                R.id.messages -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
-                    true
-                }
-                R.id.home -> {
-                    Navigation.findNavController(view).navigate(R.id.to_homePage)
-                    true
-                }
-                R.id.email -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
-                    true
-                }
-                R.id.account -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
-                    true
-                } else -> {
-                    false
-                }
-            }
-        }
         return view
     }
+
+    private fun profilePictureSetup(view: View){
+        val profile_pic: ImageView = view.findViewById(R.id.profilepic)
+        profile_pic.setImageResource(R.drawable.pfp)
+    }
+
 
     companion object {
         /**
