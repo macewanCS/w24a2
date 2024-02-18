@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R.id.bottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -42,38 +43,9 @@ class calendar : Fragment() {
         val navbar: BottomNavigationView = view.findViewById(bottomNavigationView)
         navbar.selectedItemId = R.id.calendar
 
-        navbar.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.calendar -> {
-                    //Navigation.findNavController(view).navigate(R.id.from_home_to_calendar)
-                    true
-                }
+        //start the bottom navigation bar functionality
+        navBarNavigation(view, findNavController())
 
-                R.id.messages -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
-                    true
-                }
-
-                R.id.home -> {
-                    Navigation.findNavController(view).navigate(R.id.calendar_to_homePage)
-                    true
-                }
-
-                R.id.email -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
-                    true
-                }
-
-                R.id.account -> {
-                    Navigation.findNavController(view).navigate(R.id.calendar_to_account2)
-                    true
-                }
-
-                else -> {
-                    false
-                }
-            }
-        }
         return view
     }
 

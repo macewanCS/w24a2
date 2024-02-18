@@ -8,10 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.myapplication.navBarNavigation
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,6 +52,19 @@ class account : Fragment() {
         //setup the profile picture
         profilePictureSetup(view)
 
+        //get the fullName of the current user using a callback
+        fetchUsername(object: FetchFullNameCallback{
+            override fun onFullNameFetched(fullName: String?) {
+                //if username is not null update the UI otherwise handle error
+                if (fullName != null) {
+                    //update UI here
+                    updateNameField(view, fullName)
+                } else {
+                    Log.e("TAG", "Unable to fetch username")
+                }
+            }
+        })
+
         //start the bottom navigation bar functionality
         navBarNavigation(view, findNavController())
 
@@ -57,6 +76,49 @@ class account : Fragment() {
         profile_pic.setImageResource(R.drawable.pfp)
     }
 
+    interface FetchFullNameCallback {
+        fun onFullNameFetched(fullName: String?)
+    }
+
+    fun fetchUsername(callback: FetchFullNameCallback): String? {
+        val userID = FirebaseAuth.getInstance().currentUser?.uid
+        val dbref = userID?.let {
+            FirebaseDatabase.getInstance().getReference("users").child(userID)
+        }
+        var fullName: String? = null
+
+        if (dbref != null) {
+            dbref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        //retrieve user data
+                        val firstName = snapshot.child("firstName").getValue(String::class.java)
+                        val lastName = snapshot.child("lastName").getValue(String::class.java)
+
+                        //combine the first and last name into the full name
+                        fullName = String.format("%s %s", firstName, lastName)
+                        //update ui with user data
+
+                        callback.onFullNameFetched(fullName)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    //Log.e("ValueEventListener", "Error reading data", databaseError.toException())
+                    callback.onFullNameFetched(null)
+                }
+            })
+        } else {
+            //invoke the callback with a null value if dbref is null
+            callback.onFullNameFetched(null)
+        }
+        return fullName
+    }
+
+    private fun updateNameField(view: View, fullName: String?){
+        val nameTextField = view.findViewById<TextView>(R.id.nameField)
+        nameTextField.text = "$fullName"
+    }
 
     companion object {
         /**
