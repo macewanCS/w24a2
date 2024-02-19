@@ -20,16 +20,19 @@ fun navBarNavigation(view: View, navController: NavController) {
         R.id.account2 -> {
             navbar.selectedItemId = R.id.account
         }
+        R.id.calendar -> {
+            navbar.selectedItemId = R.id.calendar
+        }
     }
 
     navbar.setOnItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
-//            R.id.calendar -> {
-//                if (currentFragmentID != R.id.fragment_calendar) {
-//                    Navigation.findNavController(view).navigate(R.id.to_calendar)
-//                }
-//                true
-//            }
+            R.id.calendar -> {
+                if (currentFragmentID != R.id.calendar) {
+                    Navigation.findNavController(view).navigate(R.id.to_calendar)
+                }
+                true
+            }
 //            R.id.messages -> {
 //                if (currentFragmentID != R.id.fragment_messages) {
 //                    Navigation.findNavController(view).navigate(R.id.to_messages)
