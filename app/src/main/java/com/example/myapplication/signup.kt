@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.Navigation
@@ -57,15 +58,17 @@ class signup : Fragment() {
         val lastNameInput: EditText = view.findViewById(R.id.LastName)
         val emailInput: EditText = view.findViewById(R.id.EmailAddress)
         val passwordInput: EditText = view.findViewById(R.id.Password)
+        val isTutorBtn: RadioButton = view.findViewById(R.id.tutorCheckBtn)
 
         register_button.setOnClickListener{
             val firstName = firstNameInput.text.toString()
             val lastName = lastNameInput.text.toString()
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
+            val isTutor = isTutorBtn.isChecked
 
             //register the user, both in database and firebase authentication
-            registerUser(email, password, firstName, lastName)
+            registerUser(email, password, firstName, lastName, isTutor)
             //clear the input fields
             clearInputFields(emailInput, passwordInput, firstNameInput, lastNameInput)
             //navigate back to the login page
@@ -83,17 +86,17 @@ class signup : Fragment() {
         return BCrypt.checkpw(plainPass, hashedPass)
     }
 
-    private fun registerUser(email: String, password: String, firstName: String, lastName: String) {
+    private fun registerUser(email: String, password: String, firstName: String, lastName: String, isTutor: Boolean) {
         //validate the input fields to ensure they are not blank
         if (validateInputFields(email, password, firstName, lastName)) {
-            createUser(email, password, firstName, lastName)
+            createUser(email, password, firstName, lastName, isTutor)
         } else {
             Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
             Log.i("TAG", "One or more fields left blank")
         }
     }
 
-    private fun storeUserInDatabase(email: String, password: String, firstName: String, lastName: String) {
+    private fun storeUserInDatabase(email: String, password: String, firstName: String, lastName: String, isTutor: Boolean) {
         //get the database info to store user
         val userID = FirebaseAuth.getInstance().currentUser?.uid
         if (userID != null) {
@@ -106,7 +109,7 @@ class signup : Fragment() {
             val hashedPass = encryptPassword(password)
 
             //create a new user object
-            val user = User(firstName, lastName, email, hashedPass)
+            val user = User(firstName, lastName, email, hashedPass, isTutor)
 
             userRef.setValue(user).addOnSuccessListener {
                 Toast.makeText(requireContext(), "Successfully Registered!", Toast.LENGTH_SHORT).show()
@@ -129,11 +132,11 @@ class signup : Fragment() {
         return false
     }
 
-    private fun createUser(email: String, password: String, firstName: String, lastName: String){
+    private fun createUser(email: String, password: String, firstName: String, lastName: String, isTutor: Boolean){
         val dbauth = FirebaseAuth.getInstance()
         dbauth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {task ->
             if (task.isSuccessful) {
-                storeUserInDatabase(email, password, firstName, lastName)
+                storeUserInDatabase(email, password, firstName, lastName, isTutor)
                 Log.d("TAG", "User successfully registered on firebase")
             } else {
                 val error = task.exception?.message
