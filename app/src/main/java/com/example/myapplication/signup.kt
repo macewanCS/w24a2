@@ -1,9 +1,7 @@
 package com.example.myapplication
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +9,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.google.android.play.integrity.internal.m
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.database
 import org.mindrot.jbcrypt.BCrypt
 
 
@@ -53,14 +48,14 @@ class signup : Fragment() {
         val view = inflater.inflate(R.layout.fragment_signup, container, false)
 
         //get all the values of the elements on the login page
-        val register_button: Button = view.findViewById(R.id.register_btn)
+        val registerBtn: Button = view.findViewById(R.id.register_btn)
         val firstNameInput: EditText = view.findViewById(R.id.FirstName)
         val lastNameInput: EditText = view.findViewById(R.id.LastName)
         val emailInput: EditText = view.findViewById(R.id.EmailAddress)
         val passwordInput: EditText = view.findViewById(R.id.Password)
         val isTutorBtn: RadioButton = view.findViewById(R.id.tutorCheckBtn)
 
-        register_button.setOnClickListener{
+        registerBtn.setOnClickListener{
             val firstName = firstNameInput.text.toString()
             val lastName = lastNameInput.text.toString()
             val email = emailInput.text.toString()
