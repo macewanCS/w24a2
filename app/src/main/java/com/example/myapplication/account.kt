@@ -10,10 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.myapplication.AccountHelper.checkIsTutorAndCreateNewSession
-import com.example.myapplication.AccountHelper.showMessage
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -43,8 +41,10 @@ class account : Fragment() {
         fetchAndUpdateFullName()
         // setup the profile picture
         profilePictureSetup()
-        // start functionality for create session button
-        createSession()
+        // functionality for create session button
+        createSessionBtn.setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.to_createSession)
+        }
 
         return view
     }
@@ -53,7 +53,7 @@ class account : Fragment() {
         lifecycleScope.launch {
             try {
                 val fullName = withContext(Dispatchers.IO) {
-                    AccountHelper.fetchUsername(requireContext())
+                    CreateSessionHelper.fetchUsername(requireContext())
                 }
 
                 nameTextField.text = "$fullName" // update UI here
@@ -65,23 +65,6 @@ class account : Fragment() {
     }
     private fun profilePictureSetup() {
         profilePic.setImageResource(R.drawable.pfp)
-    }
-    private fun createSession() {
-        createSessionBtn.setOnClickListener {
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            val userID = currentUser?.uid
-
-            if (userID != null) {
-                createSessionBtn.isEnabled = false
-                lifecycleScope.launch {
-                    checkIsTutorAndCreateNewSession(lifecycleScope, requireContext(), userID, fullName) {
-                        // callback to re-enable the button
-                        createSessionBtn.isEnabled = true}
-                }
-            } else {
-                showMessage(requireContext(), "invalid userID. Please log in.")
-            }
-        }
     }
 
 }
