@@ -58,6 +58,8 @@
     <string name="register_password_hint">Password</string>
     <string name="register_title">REGISTER</string>
     <string name="register_tutor_button">Are you a tutor?</string>
+    <string name="register_account_exists_text">Already have an account?</string>
+    <string name="register_login_text">Login</string>
     <!-- .......................... -->
 
 </resources>

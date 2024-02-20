@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -55,6 +56,8 @@ class signup : Fragment() {
         val passwordInput: EditText = view.findViewById(R.id.Password)
         val isTutorBtn: RadioButton = view.findViewById(R.id.tutorCheckBtn)
 
+        initLoginText(view)
+
         registerBtn.setOnClickListener{
             val firstName = firstNameInput.text.toString()
             val lastName = lastNameInput.text.toString()
@@ -70,6 +73,14 @@ class signup : Fragment() {
             Navigation.findNavController(view).navigate(R.id.to_login)
         }
         return view
+    }
+
+    private fun initLoginText(view: View) {
+        // make login text clickable here
+        val login = view.findViewById<TextView>(R.id.existingAccountLogin)
+        login.setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.to_login)
+        }
     }
 
     private fun encryptPassword(password: String): String {
