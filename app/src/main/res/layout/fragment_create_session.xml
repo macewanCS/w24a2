@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/general_background">
 
 <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/selectSubjectLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Subject(s)"
+        android:text="@string/create_session_select_subjects_text"
         android:textSize="18sp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/black"/>
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/selectedSubjectsChipGroup"
@@ -30,11 +33,12 @@
         android:id="@+id/selectDateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Date"
+        android:text="@string/create_session_select_date_text"
         android:textSize="18sp"
         android:layout_below="@id/selectedSubjectsChipGroup"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/black"/>
 
     <DatePicker
         android:id="@+id/datePicker"
@@ -49,17 +53,18 @@
         android:id="@+id/selectTimeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Time"
+        android:text="@string/create_session_select_time_text"
         android:textSize="18sp"
         android:layout_below="@id/datePicker"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/black"/>
 
     <Button
         android:id="@+id/selectStartTimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Start Time"
+        android:text="@string/create_session_start_time"
         android:layout_below="@id/selectTimeLabel"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
@@ -69,7 +74,7 @@
         android:id="@+id/selectEndTimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select End Time"
+        android:text="@string/create_session_end_time"
         android:layout_below="@id/selectStartTimeButton"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
@@ -79,32 +84,58 @@
         android:id="@+id/participantsCountLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Number of Participants"
+        android:text="@string/create_session_number_of_participants_text"
         android:textSize="18sp"
         android:layout_below="@id/selectEndTimeButton"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/black"/>
 
     <EditText
         android:id="@+id/participantsCountEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_below="@id/participantsCountLabel"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:inputType="number"
-        android:hint="Enter count"/>
+        android:hint="@string/create_session_number_of_participants_hint"
+        android:autofillHints="number"
+        android:textColorHint="@android:color/black"/>
 
-    <Button
-        android:id="@+id/createSessionButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Session"
+        android:orientation="horizontal"
         android:layout_below="@id/participantsCountEditText"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        style="?android:attr/buttonBarStyle">
 
-</RelativeLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="0.5"
+            android:text="@string/create_session_cancel"
+            tools:ignore="ButtonStyle"/> <!-- remove this line if we want borderless buttons -->
+
+        <Button
+            android:id="@+id/createSessionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="0.1"
+            android:text="@string/create_session_button"
+            tools:ignore="ButtonStyle"/> <!-- remove this line if we want borderless buttons -->
+    </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

@@ -28,6 +28,7 @@ class CreateSession : Fragment() {
     private lateinit var endTimeButton: Button
     private lateinit var startTimeButton: Button
     private lateinit var createSessionButton: Button
+    private lateinit var cancelButton: Button
     private lateinit var datePicker: DatePicker
     private lateinit var maxParticipantsEditText: EditText
     private lateinit var view: View
@@ -53,12 +54,18 @@ class CreateSession : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initCancelButton()
         fetchFullName()
         getSelectedSubjects()
         initTimeSelection()
         createSession(view)
     }
 
+    private fun initCancelButton() {
+        cancelButton.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.to_account)
+        }
+    }
     private fun createSession(view: View) {
         createSessionButton.setOnClickListener {
             val currentUser = FirebaseAuth.getInstance().currentUser
@@ -112,6 +119,7 @@ class CreateSession : Fragment() {
         startTimeButton = view.findViewById(R.id.selectStartTimeButton) ?: return
         endTimeButton = view.findViewById(R.id.selectEndTimeButton) ?: return
         createSessionButton = view.findViewById(R.id.createSessionButton) ?: return
+        cancelButton = view.findViewById(R.id.cancelButton) ?: return
         datePicker = view.findViewById(R.id.datePicker) ?: return
         chipGroup = view.findViewById(R.id.selectedSubjectsChipGroup)
         maxParticipantsEditText = view.findViewById(R.id.participantsCountEditText) ?: return
