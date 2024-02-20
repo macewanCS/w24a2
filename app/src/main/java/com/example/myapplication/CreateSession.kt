@@ -83,14 +83,14 @@ class CreateSession : Fragment() {
                     return@setOnClickListener
                 }
 
-                val maxParticipants = getNumberOfParticipants(maxParticipantsEditText)
-                if (maxParticipants <= 0) {
-                    showMessage(requireContext(), "Please enter a valid number of participants")
+                if (sessionTime.isBlank()) {
+                    showMessage(requireContext(), "Please select a valid session time")
                     return@setOnClickListener
                 }
 
-                if (sessionTime.isBlank()) {
-                    showMessage(requireContext(), "Please select a valid session time")
+                val maxParticipants = getNumberOfParticipants(maxParticipantsEditText)
+                if (maxParticipants <= 0) {
+                    showMessage(requireContext(), "Please enter a valid number of participants")
                     return@setOnClickListener
                 }
 
