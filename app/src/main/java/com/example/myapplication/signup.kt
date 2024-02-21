@@ -66,7 +66,7 @@ class signup : Fragment() {
                 if (isTutor) {
                     val bundle = Bundle().apply {
                         putString("firstName", firstName)
-                        putString("lastName", firstName)
+                        putString("lastName", lastName)
                         putString("email", email)
                         putString("password", password)
                         putString("encPassword", hashedPass)

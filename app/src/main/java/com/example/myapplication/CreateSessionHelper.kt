@@ -233,7 +233,7 @@ object CreateSessionHelper {
         val sessionDetails = mapOf(
             "tutorName" to fullName,
             "tutorID" to userID,
-            "subject(s)" to subjects,
+            "subjects" to subjects,
             "date" to date,
             "time" to time,
             "maxParticipants" to maxParticipants

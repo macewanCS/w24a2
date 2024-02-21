@@ -144,37 +144,13 @@
             android:layout_below="@id/additionalInfoPreferredTimesLabel">
         </com.google.android.material.chip.ChipGroup>
 
-        <TextView
-            android:id="@+id/additionalInfoResumeLabel"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/additionalInfoPreferredTimesChipGroup"
-            android:text="@string/additional_info_upload_resume_label"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/additionalInfoResumeButton"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_below="@id/additionalInfoResumeLabel"
-            android:backgroundTint="@color/white"
-            android:text="@string/additional_info_upload_resume_button"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
         <LinearLayout
             android:id="@+id/buttonLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_below="@id/additionalInfoResumeButton"
+            android:layout_below="@id/additionalInfoPreferredTimesChipGroup"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -201,6 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="0.5"
                 android:backgroundTint="@color/white"

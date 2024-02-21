@@ -1,70 +1,97 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.myapplication.R.id.bottomNavigationView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [calendar.newInstance] factory method to
- * create an instance of this fragment.
- */
 class calendar : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var view: View
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var calendarView: CalendarView
+    private lateinit var tutoringSessionAdapter: TutoringSessionAdapter
+    private val tutoringSessions: MutableList<TutoringSession> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_calendar, container, false)
+        view = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        val navbar: BottomNavigationView = view.findViewById(bottomNavigationView)
-        navbar.selectedItemId = R.id.calendar
+        // init UI components
+        initUIComponents()
 
-        //start the bottom navigation bar functionality
+        // start the bottom navigation bar functionality
         navBarNavigation(view, findNavController())
+
+        // start the calendar functionality
+        initCalendarView()
 
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment homePage.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            calendar().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun initUIComponents() {
+        recyclerView = view.findViewById(R.id.calendarRecyclerView)
+        calendarView = view.findViewById(R.id.calendarView)
+        tutoringSessionAdapter = TutoringSessionAdapter(tutoringSessions)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = tutoringSessionAdapter
+    }
+
+    private fun initCalendarView() {
+        // set up calendar to listen when a new date is clicked
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            // Fetch tutoring sessions for the selected date from Firebase
+            fetchTutoringSessions(year, month + 1, dayOfMonth)
+        }
+    }
+
+    private fun fetchTutoringSessions(year: Int, month: Int, dayOfMonth: Int) {
+        // clear any existing sessions to prevent duplicates
+        tutoringSessions.clear()
+        tutoringSessionAdapter.notifyDataSetChanged()
+
+        // format date to match format in database
+        val dateString = String.format("%04d-%02d-%02d", year, month, dayOfMonth)
+
+        // get a reference to the sessions node
+        val rootSessionsRef = FirebaseDatabase.getInstance().reference.child("sessions")
+        rootSessionsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (sessionSnapshot in snapshot.children) {
+                    // Check the date within each session
+                    val session = sessionSnapshot.getValue(TutoringSession::class.java)
+                    if (session?.date == dateString) {
+                        // If the date matches, add the session to the list
+                        tutoringSessions.add(session)
+                        // Log the added session
+                        Log.d("fetchTutoringSessions", "Added session: $session")
+                    }
                 }
+                // Log the final list of sessions
+                Log.d("fetchTutoringSessions", "Final sessions list: $tutoringSessions")
+                tutoringSessionAdapter.notifyDataSetChanged()
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Log the error
+                Log.e("fetchTutoringSessions", "Firebase Database Error: $error")
+            }
+        })
     }
 }

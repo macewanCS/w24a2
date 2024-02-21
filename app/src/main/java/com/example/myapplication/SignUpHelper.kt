@@ -1,6 +1,8 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -44,7 +46,6 @@ object SignUpHelper {
         firstName.text.clear()
         lastName.text.clear()
     }
-
 
     fun createUser(
         student: Student? = null,

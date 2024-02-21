@@ -30,7 +30,6 @@ class SignupAdditionalInfo : Fragment() {
     private lateinit var phoneNumberEditText: EditText
     private lateinit var preferredContactMethodGroup: RadioGroup
     private lateinit var preferredTimesChipGroup: ChipGroup
-    private lateinit var uploadResumeButton: Button
     private lateinit var registerButton: Button
     private var selectedGrades: String = ""
     private var selectedSubjects: String = ""
@@ -58,7 +57,6 @@ class SignupAdditionalInfo : Fragment() {
 
         // one time setup for UI components
         initUIComponents()
-
         // initialize the back button
         initBackButton()
         // initialize the chip group displays
@@ -170,7 +168,6 @@ class SignupAdditionalInfo : Fragment() {
         phoneNumberEditText = view.findViewById(R.id.additionalInfoPhoneNumberEditText)
         preferredContactMethodGroup = view.findViewById(R.id.additionalInfoContactMethodGroup) ?: return
         preferredTimesChipGroup = view.findViewById(R.id.additionalInfoPreferredTimesChipGroup) ?: return
-        uploadResumeButton = view.findViewById(R.id.additionalInfoResumeButton) ?: return
         registerButton = view.findViewById(R.id.additionalInfoRegisterButton)
 
         initChipGroup(gradesChipGroup, gradesArray)
