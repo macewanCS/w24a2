@@ -62,4 +62,19 @@
     <string name="register_login_text">Login!</string>
     <!-- .......................... -->
 
+    <!-- fragment_signup_additional_info(tutor info) strings here -->
+    <string name="additional_info_title">Please enter your information below</string>
+    <string name="additional_info_grade_levels_label">Grade Levels</string>
+    <string name="additional_info_subjects_label">Subject(s)</string>
+    <string name="additional_info_phone_number_label">Phone Number</string>
+    <string name="additional_info_phone_number_hint">Enter Phone Number</string>
+    <string name="additional_info_contact_method_label">Preferred Contact Method</string>
+    <string name="additional_info_contact_method_email">Email</string>
+    <string name="additional_info_contact_method_phone">Phone</string>
+    <string name="additional_info_preferred_times_label">Preferred Times</string>
+    <string name="additional_info_upload_resume_label">Upload A Resume</string>
+    <string name="additional_info_upload_resume_button">Upload Resume</string>
+    <string name="additional_info_register_button">Register</string>
+    <string name="additional_info_back_button">Back</string>
+    <!-- .......................... -->
 </resources>

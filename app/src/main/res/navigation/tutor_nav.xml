@@ -68,6 +68,11 @@
             app:destination="@id/login"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/to_additional_info"
+            app:destination="@id/signupAdditionalInfo"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -95,5 +100,19 @@
         <action
             android:id="@+id/to_account"
             app:destination="@id/account" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupAdditionalInfo"
+        android:name="com.example.myapplication.SignupAdditionalInfo"
+        android:label="fragment_signup_additional_info"
+        tools:layout="@layout/fragment_signup_additional_info" >
+        <action
+            android:id="@+id/to_signup"
+            app:destination="@id/signup"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/to_login"
+            app:destination="@id/login" />
     </fragment>
 </navigation>
