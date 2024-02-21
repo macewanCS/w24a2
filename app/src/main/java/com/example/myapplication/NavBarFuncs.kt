@@ -17,7 +17,7 @@ fun navBarNavigation(view: View, navController: NavController) {
         R.id.homePage -> {
             navbar.selectedItemId = R.id.home
         }
-        R.id.account2 -> {
+        R.id.account -> {
             navbar.selectedItemId = R.id.account
         }
         R.id.calendar -> {
@@ -52,7 +52,7 @@ fun navBarNavigation(view: View, navController: NavController) {
 //                true
 //            }
             R.id.account -> {
-                if (currentFragmentID != R.id.account2) {
+                if (currentFragmentID != R.id.account) {
                     Navigation.findNavController(view).navigate(R.id.to_account)
                 }
                 true

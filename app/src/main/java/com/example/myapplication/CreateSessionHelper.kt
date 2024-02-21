@@ -2,6 +2,8 @@ package com.example.myapplication
 
 import android.content.Context
 import android.util.Log
+import android.widget.DatePicker
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.google.firebase.auth.FirebaseAuth
@@ -14,10 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-object AccountHelper {
+object CreateSessionHelper {
     private const val usersNode = "users"
     private const val sessionsNode = "sessions"
     private const val toastDuration = Toast.LENGTH_SHORT
@@ -48,7 +51,6 @@ object AccountHelper {
         //display the message given
         Toast.makeText(context, message, toastDuration).show()
     }
-
     private suspend fun isTutor(context: Context): Boolean {
         return try {
             val currentUser = FirebaseAuth.getInstance().currentUser
@@ -69,14 +71,34 @@ object AccountHelper {
             false
         }
     }
-    private suspend fun createNewSessionAsync(scope: LifecycleCoroutineScope, context: Context, userID: String, fullName: String?) {
+    private suspend fun createNewSessionAsync(
+        scope: LifecycleCoroutineScope,
+        context: Context,
+        userID: String,
+        fullName: String?,
+        subjects: String,
+        date: String,
+        time: String,
+        maxParticipants: Int
+    ) {
         scope.launch {
             try {
-                val isExisting = checkForExistingSessionsAsync(context, userID)
+                val isExisting = checkForExistingSessionsAsync(context, userID, date, time)
                 if (isExisting) {
-                    showMessage(context, "Creating session failed. Tutoring session already booked at that time.")
+                    showMessage(
+                        context,
+                        "Creating session failed. Tutoring session already booked at that time."
+                    )
                 } else {
-                    createNewSession(context, userID, fullName)
+                    createNewSession(
+                        context,
+                        userID,
+                        fullName,
+                        subjects,
+                        date,
+                        time,
+                        maxParticipants
+                    )
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "Error creating new session", e)
@@ -84,12 +106,21 @@ object AccountHelper {
             }
         }
     }
-    private suspend fun checkExistingSession(context: Context, userID: String, date: String, time: String): Boolean {
+    private suspend fun checkExistingSession(
+        context: Context,
+        userID: String,
+        date: String,
+        time: String
+    ): Boolean {
         return suspendCoroutine { continuation ->
-            Log.d("checkExistingSession", "Checking existing sessions for user $userID, date $date, and time $time")
-            val sessionsRef = FirebaseDatabase.getInstance().getReference(usersNode).child(userID).child(sessionsNode)
+            Log.d(
+                "checkExistingSession",
+                "Checking existing sessions for user $userID, date $date, and time $time"
+            )
+            val sessionsRef = FirebaseDatabase.getInstance().getReference(usersNode).child(userID)
+                .child(sessionsNode)
 
-            sessionsRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            sessionsRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     Log.d(
                         "checkExistingSession",
@@ -133,7 +164,11 @@ object AccountHelper {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("checkExistingSession", "Error checking existing sessions", error.toException())
+                    Log.e(
+                        "checkExistingSession",
+                        "Error checking existing sessions",
+                        error.toException()
+                    )
                     continuation.resume(false)
 
                     // inform the user there was an error checking their existing sessions
@@ -142,9 +177,14 @@ object AccountHelper {
             })
         }
     }
-    private suspend fun checkForExistingSessionsAsync(context: Context, userID: String): Boolean {
+    private suspend fun checkForExistingSessionsAsync(
+        context: Context,
+        userID: String,
+        date: String,
+        time: String
+    ): Boolean {
         return try {
-            checkExistingSession(context, userID, "2024-05-25", "3:30-4:30")
+            checkExistingSession(context, userID, date, time)
         } catch (e: Exception) {
             Log.e("checkForExistingSessionsAsync", "Error checking existing sessions", e)
             false
@@ -156,7 +196,7 @@ object AccountHelper {
             val sessionsRef = userRef.child("sessions")
 
             //get current session count to determine session key
-            sessionsRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            sessionsRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val sessionCount = snapshot.childrenCount.toInt() + 1
                     val sessionKey = "session$sessionCount"
@@ -164,6 +204,7 @@ object AccountHelper {
                     //update node with sessionID and key
                     sessionsRef.child(sessionKey).setValue(sessionID)
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                     Log.e("updateUsersSessions", "Error getting session count", error.toException())
 
@@ -173,7 +214,15 @@ object AccountHelper {
             })
         }
     }
-    private fun createNewSession(context: Context, userID: String, fullName: String?) {
+    private fun createNewSession(
+        context: Context,
+        userID: String,
+        fullName: String?,
+        subjects: String,
+        date: String,
+        time: String,
+        maxParticipants: Int
+    ) {
         val sessionsRef = FirebaseDatabase.getInstance().getReference("sessions")
         val newSessionRef = sessionsRef.push()
 
@@ -181,11 +230,11 @@ object AccountHelper {
         //TODO: create separate page and implement this logic on a separate page, make the createSession button navigate to the new page
         val sessionDetails = mapOf(
             "tutorName" to fullName,
-            "tutorID" to userID, //replace with data from createSessions page
-            "topic" to "math", //replace with data from createSessions page
-            "date" to "2024-05-25", //replace with data from createSessions page
-            "time" to "3:30-4:30", //replace with data from createSessions page
-            "maxParticipants" to 10 //replace with data from createSessions page
+            "tutorID" to userID,
+            "subjects" to subjects,
+            "date" to date,
+            "time" to time,
+            "maxParticipants" to maxParticipants
         )
 
         newSessionRef.setValue(sessionDetails)
@@ -198,6 +247,7 @@ object AccountHelper {
                 showMessage(context, "Error creating session")
             }
     }
+
     private fun isUserTutorAsync(context: Context): Boolean = runBlocking {
         return@runBlocking try {
             withContext(Dispatchers.IO) {
@@ -208,13 +258,32 @@ object AccountHelper {
             false
         }
     }
-    suspend fun checkIsTutorAndCreateNewSession(scope: LifecycleCoroutineScope, context: Context, userID: String, fullName: String?, onComplete: () -> Unit) {
+    suspend fun checkIsTutorAndCreateNewSession(
+        scope: LifecycleCoroutineScope,
+        context: Context,
+        userID: String,
+        fullName: String?,
+        subjects: String,
+        date: String,
+        time: String,
+        maxParticipants: Int,
+        onComplete: () -> Unit
+    ) {
         scope.launch {
             try {
                 val isTutor = isUserTutorAsync(context)
                 if (isTutor) {
                     if (fullName != null) {
-                        createNewSessionAsync(scope, context, userID, fullName)
+                        createNewSessionAsync(
+                            scope,
+                            context,
+                            userID,
+                            fullName,
+                            subjects,
+                            date,
+                            time,
+                            maxParticipants
+                        )
                     } else {
                         showMessage(context, "Unable to fetch profile information.")
                     }
@@ -228,7 +297,13 @@ object AccountHelper {
             }
         }
     }
-    fun checkSessionDetails(context: Context, sessionID: String, date: String, time: String, callback: (Boolean) -> Unit) {
+    fun checkSessionDetails(
+        context: Context,
+        sessionID: String,
+        date: String,
+        time: String,
+        callback: (Boolean) -> Unit
+    ) {
         val sessionsRef = FirebaseDatabase.getInstance().getReference(sessionsNode).child(sessionID)
 
         sessionsRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -249,5 +324,35 @@ object AccountHelper {
                 showMessage(context, "Error checking session details. Please try again.")
             }
         })
+    }
+    fun getSelectedDate(datePicker: DatePicker): String? {
+        val selectedYear = datePicker.year
+        val selectedMonth = datePicker.month + 1 // months start at 0 for some reason
+        val selectedDay = datePicker.dayOfMonth
+        if (isDateBeforeCurrent(selectedYear, selectedMonth, selectedDay)) {
+            return null
+        }
+        return "$selectedYear-${selectedMonth.toString().padStart(2, '0')}-${
+            selectedDay.toString().padStart(2, '0')
+        }"
+    }
+    private fun isDateBeforeCurrent(year: Int, month: Int, day: Int): Boolean {
+        val currentDate = getCurrentDate()
+        val selectedDate =
+            "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}"
+        return selectedDate < currentDate
+    }
+    private fun getCurrentDate(): String {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1 // Months are zero-based
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        return "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}"
+    }
+    fun getNumberOfParticipants(maxParticipantsEditText: EditText): Int {
+        val maxParticipantsText = maxParticipantsEditText.text.toString().trim()
+        // check the value of the participants
+        Log.d("getNumberOfParticipants", "Max Participants: ${maxParticipantsText.toIntOrNull()}")
+        return maxParticipantsText.toIntOrNull() ?: 0
     }
 }

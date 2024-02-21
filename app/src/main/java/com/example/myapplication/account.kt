@@ -10,12 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.myapplication.AccountHelper.checkIsTutorAndCreateNewSession
-import com.example.myapplication.AccountHelper.showMessage
+import com.example.myapplication.CreateSessionHelper.showMessage
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class account : Fragment() {
@@ -43,17 +45,54 @@ class account : Fragment() {
         fetchAndUpdateFullName()
         // setup the profile picture
         profilePictureSetup()
-        // start functionality for create session button
-        createSession()
-
+        // functionality for create session button
+        initCreateSessionButton(view)
         return view
     }
 
+    private fun initCreateSessionButton(view: View) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userID = currentUser?.uid
+        // disable button to ensure students cant create sessions
+        createSessionBtn.isEnabled = false
+        // check if the user is a student or tutor
+        if (userID != null) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val isTutor = checkIfUserIsTutor(userID)
+                    if (isTutor) {
+                        // if the user a tutor enable the create a session button
+                        createSessionBtn.isEnabled = true
+                    }
+                } catch (e: Exception) {
+                    showMessage(requireContext(), "Error reading user data. Please try again.")
+                }
+            }
+        } else {
+            showMessage(requireContext(), "Invalid UserID. Please log in.")
+        }
+
+        createSessionBtn.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.to_createSession)
+        }
+    }
+    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
+            val snapshot = userRef.get().await()
+
+            if (snapshot.exists()) {
+                return@withContext snapshot.child("tutor").getValue(Boolean::class.java) ?: false
+            } else {
+                throw Exception("User data not found.")
+            }
+        }
+    }
     private fun fetchAndUpdateFullName() {
         lifecycleScope.launch {
             try {
                 val fullName = withContext(Dispatchers.IO) {
-                    AccountHelper.fetchUsername(requireContext())
+                    CreateSessionHelper.fetchUsername(requireContext())
                 }
 
                 nameTextField.text = "$fullName" // update UI here
@@ -65,23 +104,6 @@ class account : Fragment() {
     }
     private fun profilePictureSetup() {
         profilePic.setImageResource(R.drawable.pfp)
-    }
-    private fun createSession() {
-        createSessionBtn.setOnClickListener {
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            val userID = currentUser?.uid
-
-            if (userID != null) {
-                createSessionBtn.isEnabled = false
-                lifecycleScope.launch {
-                    checkIsTutorAndCreateNewSession(lifecycleScope, requireContext(), userID, fullName) {
-                        // callback to re-enable the button
-                        createSessionBtn.isEnabled = true}
-                }
-            } else {
-                showMessage(requireContext(), "invalid userID. Please log in.")
-            }
-        }
     }
 
 }

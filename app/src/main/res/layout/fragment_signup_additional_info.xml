@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/additionalInfoTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/additional_info_title"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/additionalInfoGradeLevelsLabel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/additionalInfoTitle"
+            android:text="@string/additional_info_grade_levels_label"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/additionalInfoGradesChipGroup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/additionalInfoGradeLevelsLabel">
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/additionalInfoSubjectsLabel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/additionalInfoGradesChipGroup"
+            android:text="@string/additional_info_subjects_label"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/additionalInfoSubjectsChipGroup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/additionalInfoSubjectsLabel">
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/additionalInfoPhoneNumberLabel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/additionalInfoSubjectsChipGroup"
+            android:text="@string/additional_info_phone_number_label"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/additionalInfoPhoneNumberEditText"
+            android:layout_marginTop="16dp"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/additionalInfoPhoneNumberLabel"
+            android:background="@drawable/outline_email"
+            android:hint="@string/additional_info_phone_number_hint"
+            android:textAlignment="center"
+            android:inputType="phone|number"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp"
+            android:autofillHints="phoneNumber" />
+
+        <TextView
+            android:id="@+id/additionalInfoContactMethodLabel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/additionalInfoPhoneNumberEditText"
+            android:text="@string/additional_info_contact_method_label"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/additionalInfoContactMethodGroup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/additionalInfoContactMethodLabel">
+
+            <RadioButton
+                android:id="@+id/additionalInfoEmailButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/additional_info_contact_method_email"
+                android:textColor="@color/black"/>
+
+            <RadioButton
+                android:id="@+id/additionalInfoPhoneButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/additional_info_contact_method_phone"
+                android:textColor="@color/black"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/additionalInfoPreferredTimesLabel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/additionalInfoContactMethodGroup"
+            android:text="@string/additional_info_preferred_times_label"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/additionalInfoPreferredTimesChipGroup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/additionalInfoPreferredTimesLabel">
+        </com.google.android.material.chip.ChipGroup>
+
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_below="@id/additionalInfoPreferredTimesChipGroup"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            style="?android:attr/buttonBarStyle">
+
+            <Button
+                android:id="@+id/additionalInfoBackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="0.1"
+                android:backgroundTint="@color/white"
+                android:text="@string/additional_info_back_button"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:ignore="ButtonStyle"/>
+
+            <Button
+                android:id="@+id/additionalInfoRegisterButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="0.5"
+                android:backgroundTint="@color/white"
+                android:text="@string/additional_info_register_button"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:ignore="ButtonStyle"/>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
