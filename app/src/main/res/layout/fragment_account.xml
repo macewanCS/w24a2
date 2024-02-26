@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/general_background"
     tools:context=".account">
 
     <ImageView
@@ -17,7 +18,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.026"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@tools:sample/avatars"
+        android:contentDescription="@string/account_profile_picture_desc" />
 
     <TextView
         android:id="@+id/nameField"
@@ -27,7 +29,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:minHeight="48dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profilepic"
@@ -38,8 +40,8 @@
         android:layout_width="186dp"
         android:layout_height="31dp"
         android:layout_marginStart="20dp"
-        android:text="Grade Level: 11, 12"
-        android:textSize="20dp"
+        android:text="@string/account_grade_text"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profilepic"
@@ -50,8 +52,8 @@
         android:layout_width="242dp"
         android:layout_height="36dp"
         android:layout_marginStart="20dp"
-        android:text="Subject(s): Math, English"
-        android:textSize="20dp"
+        android:text="@string/account_subjects_text"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profilepic"
@@ -62,17 +64,16 @@
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="188dp"
         android:layout_marginEnd="40dp"
         android:background="#2985E8"
-        android:text="Sessions"
+        android:text="@string/account_sessions_button"
         android:textColor="@color/white"
-        android:textSize="35dp"
         android:textScaleX="1.10"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.363"
         tools:ignore="TextContrastCheck" />
 
     <Button
@@ -80,17 +81,16 @@
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:background="#2985E8"
-        android:text="Assignments"
+        android:text="@string/account_assignments_button"
         android:textColor="@color/white"
-        android:textSize="35dp"
         android:textScaleX="1.10"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.477"
+        app:layout_constraintTop_toBottomOf="@+id/sessions"
         tools:ignore="TextContrastCheck" />
 
     <Button
@@ -98,17 +98,16 @@
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:background="#2985E8"
-        android:text="Availability"
+        android:text="@string/account_availability_button"
         android:textColor="@color/white"
-        android:textSize="35dp"
         android:textScaleX="1.10"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.59"
+        app:layout_constraintTop_toBottomOf="@+id/assignments"
         tools:ignore="TextContrastCheck" />
 
     <Button
@@ -116,17 +115,16 @@
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:background="#2985E8"
-        android:text="Personal Information"
+        android:text="@string/account_personal_information_button"
         android:textColor="@color/white"
-        android:textSize="35dp"
         android:textScaleX="0.83"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.707"
+        app:layout_constraintTop_toBottomOf="@+id/availability"
         tools:ignore="TextContrastCheck" />
 
     <include
@@ -135,5 +133,13 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 
-
+    <Button
+        android:id="@+id/createSession"
+        android:layout_width="117dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/account_create_session_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personalInformation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

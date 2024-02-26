@@ -1,10 +1,8 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +10,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.database
-import org.w3c.dom.Text
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,10 +68,10 @@ class login : Fragment() {
 
     private fun initLoginBtn(view: View, usernameInput: EditText, passwordInput: EditText) {
         //get a reference to the login button
-        val login_button: Button = view.findViewById(R.id.login_btn)
+        val loginBtn: Button = view.findViewById(R.id.login_btn)
 
         //initialize the login button
-        login_button.setOnClickListener{
+        loginBtn.setOnClickListener{
             val auth = FirebaseAuth.getInstance()
 
             val username = usernameInput.text.toString()
@@ -89,7 +85,7 @@ class login : Fragment() {
                             Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
                             Navigation.findNavController(view).navigate(R.id.account_login)
                         } else {
-                            Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Invalid email or password", Toast.LENGTH_SHORT).show()
                         }
                     }
 
