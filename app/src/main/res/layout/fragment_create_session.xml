@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/general_background">
+    android:background="@color/white">
 
 <RelativeLayout
     android:layout_width="wrap_content"
@@ -26,7 +26,8 @@
         android:layout_below="@id/selectSubjectLabel"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        android:background="@color/white">
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
@@ -45,9 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/selectDateLabel"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@color/white" />
 
     <TextView
         android:id="@+id/selectTimeLabel"
@@ -68,7 +69,9 @@
         android:layout_below="@id/selectTimeLabel"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/blue"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:id="@+id/selectEndTimeButton"
@@ -78,7 +81,9 @@
         android:layout_below="@id/selectStartTimeButton"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/blue"
+        android:textColor="@android:color/white"/>
 
     <TextView
         android:id="@+id/participantsCountLabel"
@@ -124,6 +129,8 @@
             android:layout_marginEnd="16dp"
             android:layout_weight="0.5"
             android:text="@string/create_session_cancel"
+            android:backgroundTint="@color/blue"
+            android:textColor="@android:color/white"
             tools:ignore="ButtonStyle"/> <!-- remove this line if we want borderless buttons -->
 
         <Button
@@ -135,6 +142,8 @@
             android:layout_marginEnd="16dp"
             android:layout_weight="0.1"
             android:text="@string/create_session_button"
+            android:backgroundTint="@color/blue"
+            android:textColor="@android:color/white"
             tools:ignore="ButtonStyle"/> <!-- remove this line if we want borderless buttons -->
     </LinearLayout>
     </RelativeLayout>
