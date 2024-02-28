@@ -48,7 +48,17 @@
         android:layout_below="@id/selectDateLabel"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:background="@color/white" />
+        android:background="@color/blue"
+        android:headerBackground="@color/blue"
+        android:headerDayOfMonthTextAppearance="@color/white"
+        android:headerMonthTextAppearance="@color/white"
+        android:yearListItemTextAppearance="@color/white"
+        android:yearListSelectorColor="@color/blue"
+        android:dayOfWeekBackground="@color/white"
+        android:dayOfWeekTextAppearance="@color/white"
+        android:headerYearTextAppearance="@color/white"
+        android:calendarTextColor="@color/black"/>
+
 
     <TextView
         android:id="@+id/selectTimeLabel"
@@ -107,7 +117,7 @@
         android:inputType="number"
         android:hint="@string/create_session_number_of_participants_hint"
         android:autofillHints="number"
-        android:textColorHint="@android:color/black"/>
+        android:textColorHint="@android:color/darker_gray"/>
 
     <LinearLayout
         android:id="@+id/buttonLayout"
