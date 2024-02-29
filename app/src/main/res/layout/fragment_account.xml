@@ -5,92 +5,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/general_background"
+    android:background="@color/white"
     tools:context=".account">
+
 
     <ImageView
         android:id="@+id/profilepic"
         android:layout_width="120dp"
         android:layout_height="140dp"
+        android:contentDescription="@string/account_profile_picture_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026"
-        tools:src="@tools:sample/avatars"
-        android:contentDescription="@string/account_profile_picture_desc" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/nameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:ems="10"
         android:minHeight="48dp"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/gradeLevel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/profilepic"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilepic" />
 
     <TextView
         android:id="@+id/gradeLevel"
         android:layout_width="186dp"
         android:layout_height="31dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="112dp"
         android:text="@string/account_grade_text"
+        android:textColor="@color/black"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/profilepic"
-        app:layout_constraintTop_toBottomOf="@+id/nameField" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.155" />
 
     <TextView
         android:id="@+id/subjects"
         android:layout_width="242dp"
         android:layout_height="36dp"
-        android:layout_marginStart="20dp"
         android:text="@string/account_subjects_text"
+        android:textColor="@color/black"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/profilepic"
-        app:layout_constraintTop_toBottomOf="@+id/gradeLevel" />
-
-    <Button
-        android:id="@+id/sessions"
-        android:layout_width="327dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="188dp"
-        android:layout_marginEnd="40dp"
-        android:background="#2985E8"
-        android:text="@string/account_sessions_button"
-        android:textColor="@color/white"
-        android:textScaleX="1.10"
-        android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintVertical_bias="0.325" />
 
     <Button
-        android:id="@+id/assignments"
+        android:id="@+id/createSession"
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
-        android:background="#2985E8"
-        android:text="@string/account_assignments_button"
+        android:layout_marginTop="300dp"
+        android:text="@string/account_create_session_button"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:backgroundTint="#1F0EBC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/personalInformation"
+        android:layout_width="327dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="528dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/personal_information"
         android:textColor="@color/white"
         android:textScaleX="1.10"
-        android:textSize="35sp"
+        android:textSize="22sp"
+        app:backgroundTint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sessions"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
     <Button
@@ -98,33 +110,35 @@
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="452dp"
         android:layout_marginEnd="40dp"
-        android:background="#2985E8"
-        android:text="@string/account_availability_button"
+        android:text="@string/availability"
         android:textColor="@color/white"
         android:textScaleX="1.10"
-        android:textSize="35sp"
+        android:textSize="22sp"
+        app:backgroundTint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assignments"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
     <Button
-        android:id="@+id/personalInformation"
+        android:id="@+id/sessions"
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="376dp"
         android:layout_marginEnd="40dp"
-        android:background="#2985E8"
-        android:text="@string/account_personal_information_button"
+        android:text="@string/account_sessions_button"
         android:textColor="@color/white"
-        android:textScaleX="0.83"
-        android:textSize="35sp"
+        android:textScaleX="1.10"
+        android:textSize="22sp"
+        app:backgroundTint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/availability"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
     <include
@@ -133,13 +147,4 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 
-    <Button
-        android:id="@+id/createSession"
-        android:layout_width="117dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/account_create_session_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personalInformation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
