@@ -37,6 +37,7 @@ class CreateSession : Fragment() {
     private lateinit var view: View
     private lateinit var chipGroup: ChipGroup
     private var selectedSubjects: String = ""
+    private var selectedGrades: String = ""
     private var fullName: String = ""
     private var sessionTime: String = ""
     private lateinit var startTime: String
@@ -60,6 +61,7 @@ class CreateSession : Fragment() {
         initCancelButton()
         fetchFullName()
         getSelectedSubjects()
+        getSelectedGrades()
         initTimeSelection()
         createSession(view)
     }
@@ -77,6 +79,11 @@ class CreateSession : Fragment() {
             if (userID != null) {
                 if (selectedSubjects.isBlank()) {
                     showMessage(requireContext(), "Please select at least one subject")
+                    return@setOnClickListener
+                }
+
+                if (selectedGrades.isBlank()) {
+                    showMessage(requireContext(), "Please select at least one grade level")
                     return@setOnClickListener
                 }
 
@@ -104,6 +111,7 @@ class CreateSession : Fragment() {
                         userID,
                         fullName,
                         selectedSubjects,
+                        selectedGrades,
                         date,
                         sessionTime,
                         maxParticipants
@@ -239,6 +247,34 @@ class CreateSession : Fragment() {
 
             // check the current selected subjects
             Log.d("getSelectedSubjects", "Selected Subjects: $selectedSubjects")
+        }
+    }
+    private fun getSelectedGrades() {
+        val gradesArray: Array<String> = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "Graduate")
+
+        val chipGroup = view.findViewById<ChipGroup>(R.id.selectedGradesChipGroup)
+
+        for (grade in gradesArray) {
+            val chip = Chip(requireContext())
+            chip.setChipBackgroundColorResource(R.color.chip_background)
+            chip.setTextColor(WHITE)
+            chip.text = grade
+            chip.isCheckable = true
+            chipGroup.addView(chip)
+        }
+
+        selectedGrades = chipGroup.checkedChipIds
+            .map {chipGroup.findViewById<Chip>(it).text.toString()}
+            .joinToString {", "}
+
+        chipGroup.setOnCheckedStateChangeListener { group, _ ->
+            // update the selectedSubjects strings whenever a chip is selected or deselected
+            selectedGrades = group.checkedChipIds
+                .map {group.findViewById<Chip>(it).text.toString()}
+                .joinToString(", ")
+
+            // check the current selected subjects
+            Log.d("getSelectedSubjects", "Selected Subjects: $selectedGrades")
         }
     }
 }
