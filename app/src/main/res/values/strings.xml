@@ -27,6 +27,7 @@
 
     <!-- fragment_create_session(create session) strings here -->
     <string name="create_session_select_subjects_text">Select Subject(s)</string>
+    <string name="create_session_select_grades_text">Select Grades(s)</string>
     <string name="create_session_select_date_text">Select Date</string>
     <string name="create_session_select_time_text">Select Time</string>
     <string name="create_session_cancel_text">Cancel</string>

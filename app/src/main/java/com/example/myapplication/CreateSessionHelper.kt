@@ -77,6 +77,7 @@ object CreateSessionHelper {
         userID: String,
         fullName: String?,
         subjects: String,
+        grades: String,
         date: String,
         time: String,
         maxParticipants: Int
@@ -95,6 +96,7 @@ object CreateSessionHelper {
                         userID,
                         fullName,
                         subjects,
+                        grades,
                         date,
                         time,
                         maxParticipants
@@ -219,6 +221,7 @@ object CreateSessionHelper {
         userID: String,
         fullName: String?,
         subjects: String,
+        grades: String,
         date: String,
         time: String,
         maxParticipants: Int
@@ -227,11 +230,11 @@ object CreateSessionHelper {
         val newSessionRef = sessionsRef.push()
 
         //set values based on page to add a new session
-        //TODO: create separate page and implement this logic on a separate page, make the createSession button navigate to the new page
         val sessionDetails = mapOf(
             "tutorName" to fullName,
             "tutorID" to userID,
             "subjects" to subjects,
+            "grades" to grades,
             "date" to date,
             "time" to time,
             "maxParticipants" to maxParticipants
@@ -264,6 +267,7 @@ object CreateSessionHelper {
         userID: String,
         fullName: String?,
         subjects: String,
+        grades: String,
         date: String,
         time: String,
         maxParticipants: Int,
@@ -280,6 +284,7 @@ object CreateSessionHelper {
                             userID,
                             fullName,
                             subjects,
+                            grades,
                             date,
                             time,
                             maxParticipants

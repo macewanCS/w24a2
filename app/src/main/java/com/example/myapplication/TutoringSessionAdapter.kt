@@ -21,7 +21,7 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
             val tutoringSession = tutoringSessions[position]
 
             // create a string from all the session details from the database
-            val detailsString = "Name: ${tutoringSession.tutorName}\nDate: ${tutoringSession.date}\n" + "Time: ${tutoringSession.time}\nSubjects: ${tutoringSession.subjects}"
+            val detailsString = "Name: ${tutoringSession.tutorName}\nDate: ${tutoringSession.date}\n" + "Time: ${tutoringSession.time}\nSubjects: ${tutoringSession.subjects}\nGrades: ${tutoringSession.grades}\nNumber of Students: ${tutoringSession.maxParticipants}"
 
             // Set the formatted details string to the TextView
             holder.sessionDetails.text = detailsString
