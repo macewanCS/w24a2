@@ -20,6 +20,9 @@
             app:destination="@id/signup"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/account_student_login"
+            app:destination="@id/student_profile" />
     </fragment>
     <fragment
         android:id="@+id/homePage"
@@ -115,4 +118,9 @@
             android:id="@+id/to_login"
             app:destination="@id/login" />
     </fragment>
+    <fragment
+        android:id="@+id/student_profile"
+        android:name="com.example.myapplication.student_profile"
+        android:label="fragment_student_profile"
+        tools:layout="@layout/fragment_student_profile" />
 </navigation>
