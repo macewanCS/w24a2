@@ -1,11 +1,14 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CalendarView
+import android.widget.Toast.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +24,9 @@ class calendar : Fragment() {
     private lateinit var calendarView: CalendarView
     private lateinit var tutoringSessionAdapter: TutoringSessionAdapter
     private val tutoringSessions: MutableList<TutoringSession> = mutableListOf()
+    private lateinit var bookBtn: Button
+
+    //private val clickable = view.findViewById<Button>(R.id.bookSession) //Button to book a session, needs to be initialized
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +38,7 @@ class calendar : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_calendar, container, false)
+        bookBtn = view.findViewById(R.id.bookSession)
 
         // init UI components
         initUIComponents()
@@ -41,10 +48,18 @@ class calendar : Fragment() {
 
         // start the calendar functionality
         initCalendarView()
+        //removeSession()
 
         return view
     }
-
+/*
+    //function for the button
+    private fun removeSession() {
+        bookBtn.setOnClickListener(new View.On)
+        }
+    //bookBtn.setOnClickListener {
+            //Navigation.findNavController(view).navigate(R.id.to_createSession)
+*/
     private fun initUIComponents() {
         recyclerView = view.findViewById(R.id.calendarRecyclerView)
         calendarView = view.findViewById(R.id.calendarView)
@@ -61,6 +76,7 @@ class calendar : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun fetchTutoringSessions(year: Int, month: Int, dayOfMonth: Int) {
         // clear any existing sessions to prevent duplicates
         tutoringSessions.clear()
@@ -72,6 +88,7 @@ class calendar : Fragment() {
         // get a reference to the sessions node
         val rootSessionsRef = FirebaseDatabase.getInstance().reference.child("sessions")
         rootSessionsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (sessionSnapshot in snapshot.children) {
                     // Check the date within each session
