@@ -1,47 +1,31 @@
 package com.example.myapplication
 
-import android.app.admin.TargetUser
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.example.myapplication.databinding.FragmentAccountBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.fragment.findNavController
+import com.example.myapplication.CreateSessionHelper.showMessage
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [account.newInstance] factory method to
- * create an instance of this fragment.
- */
 class account : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-    }
-
+    private lateinit var profilePic: ImageView
+    private lateinit var nameTextField: TextView
+    private lateinit var createSessionBtn: Button
+    private var fullName: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,55 +34,76 @@ class account : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
-        val profile_pic: ImageView = view.findViewById(R.id.profilepic)
-        profile_pic.setImageResource(R.drawable.pfp)
+        // initialize the pages components
+        profilePic = view.findViewById(R.id.profilepic)
+        nameTextField = view.findViewById(R.id.nameField)
+        createSessionBtn = view.findViewById(R.id.createSession)
 
-        val navbar: BottomNavigationView = view.findViewById(R.id.bottomNavigationView)
-        navbar.selectedItemId = R.id.account
-
-        navbar.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.calendar -> {
-                    Navigation.findNavController(view).navigate(R.id.to_calendar)
-                    true
-
-                }
-                R.id.home -> {
-                    Navigation.findNavController(view).navigate(R.id.to_homePage)
-                    true
-                }
-                R.id.email -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
-                    true
-                }
-                R.id.account -> {
-                    //Navigation.findNavController(view).navigate(R.id.to_login)
-                    true
-                } else -> {
-                    false
-                }
-            }
-        }
+        // start the bottom navigation bar functionality
+        navBarNavigation(view, findNavController())
+        // change the name field to the users first and last name
+        fetchAndUpdateFullName()
+        // setup the profile picture
+        profilePictureSetup()
+        // functionality for create session button
+        initCreateSessionButton(view)
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment account.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            account().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun initCreateSessionButton(view: View) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userID = currentUser?.uid
+        // disable button to ensure students cant create sessions
+        createSessionBtn.isEnabled = false
+        // check if the user is a student or tutor
+        if (userID != null) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val isTutor = checkIfUserIsTutor(userID)
+                    if (isTutor) {
+                        // if the user a tutor enable the create a session button
+                        createSessionBtn.isEnabled = true
+                    }
+                } catch (e: Exception) {
+                    showMessage(requireContext(), "Error reading user data. Please try again.")
                 }
             }
+        } else {
+            showMessage(requireContext(), "Invalid UserID. Please log in.")
+        }
+
+        createSessionBtn.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.to_createSession)
+        }
     }
+    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
+            val snapshot = userRef.get().await()
+
+            if (snapshot.exists()) {
+                return@withContext snapshot.child("tutor").getValue(Boolean::class.java) ?: false
+            } else {
+                throw Exception("User data not found.")
+            }
+        }
+    }
+    private fun fetchAndUpdateFullName() {
+        lifecycleScope.launch {
+            try {
+                val fullName = withContext(Dispatchers.IO) {
+                    CreateSessionHelper.fetchUsername(requireContext())
+                }
+
+                nameTextField.text = "$fullName" // update UI here
+                this@account.fullName = fullName.toString() // set the global variable for use later
+            } catch (e: Exception) {
+                Log.e("TAG", "Error fetching username")
+            }
+        }
+    }
+    private fun profilePictureSetup() {
+        profilePic.setImageResource(R.drawable.pfp)
+    }
+
 }

@@ -78,8 +78,7 @@
     <string name="additional_info_upload_resume_button">Upload Resume</string>
     <string name="additional_info_register_button">Register</string>
     <string name="additional_info_back_button">Back</string>
-    <string name="logout_button">Logout</string>
-    <string name="availability">Availability</string>
     <string name="personal_information">Personal Information</string>
+    <string name="availability">Availability</string>
     <!-- .......................... -->
 </resources>
