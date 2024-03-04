@@ -83,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <Button
@@ -143,19 +143,22 @@
     <Button
         android:id="@+id/logout"
         android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="104dp"
+        android:gravity="center"
         android:text="@string/logout"
-        app:layout_constraintBottom_toTopOf="@+id/profilepic"
-        app:layout_constraintEnd_toStartOf="@+id/profilepic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:backgroundTint="#10355E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         android:id="@+id/bottomtoolbar"
         layout="@layout/bottom_navigator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="7dp"
+        android:layout_height="4dp"
         android:layout_marginEnd="411dp"
         android:layout_marginBottom="731dp"
         app:layout_constraintBottom_toBottomOf="parent"
