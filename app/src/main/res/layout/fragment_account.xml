@@ -144,7 +144,7 @@
         android:id="@+id/logout"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="104dp"
+        android:layout_marginBottom="112dp"
         android:gravity="center"
         android:text="@string/logout"
         android:textColor="@color/white"
@@ -152,6 +152,7 @@
         app:backgroundTint="#10355E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
