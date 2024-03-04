@@ -84,5 +84,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_for_tutor">Search for tutor</string>
     <string name="book_session">Book Session</string>
+    <string name="logout">Logout</string>
     <!-- .......................... -->
 </resources>
