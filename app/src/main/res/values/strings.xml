@@ -78,8 +78,12 @@
     <string name="additional_info_upload_resume_button">Upload Resume</string>
     <string name="additional_info_register_button">Register</string>
     <string name="additional_info_back_button">Back</string>
-    <string name="logout_button">Logout</string>
-    <string name="availability">Availability</string>
     <string name="personal_information">Personal Information</string>
+    <string name="availability">Availability</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_for_tutor">Search for tutor</string>
+    <string name="book_session">Book Session</string>
+    <string name="logout">Logout</string>
     <!-- .......................... -->
 </resources>
