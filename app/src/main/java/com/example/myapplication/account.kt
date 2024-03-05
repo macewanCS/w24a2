@@ -41,6 +41,7 @@ class account : Fragment() {
         createSessionBtn = view.findViewById(R.id.createSession)
         logoutBtn = view.findViewById(R.id.logout)
 
+
         // start the bottom navigation bar functionality
         navBarNavigation(view, findNavController())
         // change the name field to the users first and last name
@@ -52,6 +53,12 @@ class account : Fragment() {
         // functionality for the logout button
         initLogoutButton(view)
         return view
+    }
+        private fun initLogoutButton(view: View) {
+            logoutBtn.setOnClickListener {
+                Navigation.findNavController(view).navigate(R.id.to_login)
+            }
+
     }
 
     private fun initCreateSessionButton(view: View) {
@@ -108,12 +115,6 @@ class account : Fragment() {
     }
     private fun profilePictureSetup() {
         profilePic.setImageResource(R.drawable.pfp)
-    }
-
-    private fun initLogoutButton(view: View) {
-        logoutBtn.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.to_login)
-        }
     }
 
 }
