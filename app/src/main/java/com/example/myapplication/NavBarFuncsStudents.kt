@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-fun navBarNavigation(view: View, navController: NavController) {
+fun navBarNavigationStudents(view: View, navController: NavController) {
     val navbar: BottomNavigationView = view.findViewById(R.id.bottomNavigationView)
 
     val currentFragmentID = navController.currentDestination?.id
@@ -21,7 +21,7 @@ fun navBarNavigation(view: View, navController: NavController) {
         R.id.homePage -> {
             navbar.selectedItemId = R.id.home
         }
-        R.id.account -> {
+        R.id.student_profile -> {
             navbar.selectedItemId = R.id.account
         }
         R.id.calendar -> {
@@ -56,13 +56,13 @@ fun navBarNavigation(view: View, navController: NavController) {
 //                true
 //            }
             R.id.account -> {
-                if (currentFragmentID != R.id.account) {
-                    Navigation.findNavController(view).navigate(R.id.to_account)
+                if (currentFragmentID != R.id.student_profile) {
+                    Navigation.findNavController(view).navigate(R.id.to_student_profile)
                 }
                 true
             }
             else -> false
         }
-        }
     }
+}
 

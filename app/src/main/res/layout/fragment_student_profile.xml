@@ -92,8 +92,19 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:text="@string/logout"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:backgroundTint="#10355E"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="501dp" />
+
     <include
-        android:id="@+id/bottomtoolbar"
+        android:id="@+id/bottomToolbar"
         layout="@layout/bottom_navigator"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
