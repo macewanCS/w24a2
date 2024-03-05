@@ -11,8 +11,16 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,13 +85,50 @@ class login : Fragment() {
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
 
+
+
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 Log.i("TAG", "$username: $password")
                 auth.signInWithEmailAndPassword(username, password)
                     .addOnCompleteListener{task ->
                         if(task.isSuccessful){
                             Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
-                            Navigation.findNavController(view).navigate(R.id.account_login)
+                            //--------------
+                            CoroutineScope(Dispatchers.Main).launch {
+                                val currentUser = FirebaseAuth.getInstance().currentUser
+                                val userID = currentUser?.uid
+                                // disable button to ensure students cant create sessions
+
+                                // check if the user is a student or tutor
+                                if (userID != null) {
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        try {
+                                            val isTutor = checkIfUserIsTutor(userID)
+                                            if (isTutor) {
+                                                Navigation.findNavController(view).navigate(R.id.account)
+                                            }
+                                            else{
+                                                Navigation.findNavController(view).navigate(R.id.student_profile)
+                                            }
+
+                                        } catch (e: Exception) {
+                                            CreateSessionHelper.showMessage(
+                                                requireContext(),
+                                                "Error reading user data. Please try again."
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    CreateSessionHelper.showMessage(
+                                        requireContext(),
+                                        "Invalid UserID. Please log in."
+                                    )
+                                }
+                            }
+
+
+                            // -------------
+
                         } else {
                             Toast.makeText(requireContext(), "Invalid email or password", Toast.LENGTH_SHORT).show()
                         }
@@ -97,6 +142,18 @@ class login : Fragment() {
         }
     }
 
+    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
+            val snapshot = userRef.get().await()
+
+            if (snapshot.exists()) {
+                return@withContext snapshot.child("tutor").getValue(Boolean::class.java) ?: false
+            } else {
+                throw Exception("User data not found.")
+            }
+        }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
