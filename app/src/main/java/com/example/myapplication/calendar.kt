@@ -24,7 +24,7 @@ class calendar : Fragment() {
     private lateinit var calendarView: CalendarView
     private lateinit var tutoringSessionAdapter: TutoringSessionAdapter
     private val tutoringSessions: MutableList<TutoringSession> = mutableListOf()
-    private lateinit var bookBtn: Button
+    //private lateinit var bookBtn: Button
 
     //private val clickable = view.findViewById<Button>(R.id.bookSession) //Button to book a session, needs to be initialized
 
@@ -38,7 +38,7 @@ class calendar : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_calendar, container, false)
-        bookBtn = view.findViewById(R.id.bookSession)
+        //bookBtn = view.findViewById(R.id.bookSession)
 
         // init UI components
         initUIComponents()
