@@ -7,13 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class calendar : Fragment() {
     private lateinit var view: View
@@ -36,17 +42,56 @@ class calendar : Fragment() {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_calendar, container, false)
 
+        TutorCheck(view)
         // init UI components
         initUIComponents()
-
-        // start the bottom navigation bar functionality
-        navBarNavigation(view, findNavController())
 
         // start the calendar functionality
         initCalendarView()
 
         return view
     }
+
+    private fun TutorCheck(view: View) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userID = currentUser?.uid
+
+        // check if the user is a student or tutor
+        if (userID != null) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val isTutor = checkIfUserIsTutor(userID)
+                    if (isTutor) {
+                        // start the bottom navigation bar functionality
+                        navBarNavigation(view, findNavController())
+                    }
+
+                    else {
+                        // start the bottom navigation bar functionality
+                        navBarNavigationStudents(view, findNavController())
+                    }
+
+                } catch (e: Exception) {
+                    CreateSessionHelper.showMessage(
+                        requireContext(),
+                        "Error reading user data. Please try again."
+                    )
+                }
+            }
+        }
+    }
+            private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+                return withContext(Dispatchers.IO) {
+                    val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
+                    val snapshot = userRef.get().await()
+
+                    if (snapshot.exists()) {
+                        return@withContext snapshot.child("tutor").getValue(Boolean::class.java) ?: false
+                    } else {
+                        throw Exception("User data not found.")
+                    }
+                }
+            }
 
     private fun initUIComponents() {
         recyclerView = view.findViewById(R.id.calendarRecyclerView)

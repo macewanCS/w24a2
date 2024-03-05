@@ -41,7 +41,6 @@ class account : Fragment() {
         createSessionBtn = view.findViewById(R.id.createSession)
         logoutBtn = view.findViewById(R.id.logout)
 
-
         // start the bottom navigation bar functionality
         navBarNavigation(view, findNavController())
         // change the name field to the users first and last name
@@ -75,6 +74,7 @@ class account : Fragment() {
                         // if the user a tutor enable the create a session button
                         createSessionBtn.isEnabled = true
                     }
+
                 } catch (e: Exception) {
                     showMessage(requireContext(), "Error reading user data. Please try again.")
                 }
