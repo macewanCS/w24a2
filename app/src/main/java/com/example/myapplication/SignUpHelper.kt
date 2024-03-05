@@ -57,22 +57,30 @@ object SignUpHelper {
         if (student != null && tutor == null && student.isTutor == false) {
             dbAuth.createUserWithEmailAndPassword(email!!, password!!).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    storeUserInDatabase(student, null, context, view)
-                    Log.d("TAG", "User successfully registered on firebase")
+                    val userID = task.result?.user?.uid
+                    if (!userID.isNullOrBlank()) {
+                        storeUserInDatabase(student, tutor, userID, context, view)
+                    } else {
+                        Log.e("TAG", "UserID is null")
+                    }
                 } else {
                     val error = task.exception?.message
-                    showMessage(context, "Sign up failed.")
+                    showMessage(context, "Sign up failed: $error")
                     Log.e("TAG", "Signup failed: $error", task.exception)
                 }
             }
         } else if (tutor != null && student == null && tutor.isTutor == true) {
             dbAuth.createUserWithEmailAndPassword(email!!, password!!).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    storeUserInDatabase(null, tutor, context, view)
-                    Log.d("TAG", "User successfully registered on firebase")
+                    val userID = task.result?.user?.uid
+                    if (!userID.isNullOrBlank()) {
+                        storeUserInDatabase(null, tutor, userID, context, view)
+                    } else {
+                        Log.e("TAG", "UserID is null")
+                    }
                 } else {
                     val error = task.exception?.message
-                    showMessage(context, "Sign up failed.")
+                    showMessage(context, "Sign up failed: $error")
                     Log.e("TAG", "Signup failed: $error", task.exception)
                 }
             }
@@ -84,44 +92,40 @@ object SignUpHelper {
     private fun storeUserInDatabase(
         student: Student? = null,
         tutor: Tutor? = null,
+        userID: String,
         context: Context,
         view: View
     ) {
         //get the database info to store user
-        val userID = FirebaseAuth.getInstance().currentUser?.uid
-        if (userID != null) {
-            //get the reference(pointer) to the database and the 'users' object within the database
-            val usersRef = FirebaseDatabase.getInstance().getReference("users")
-            //here get the reference to a new child using the userID of the current user that has been authenticated in the database
-            val userRef = usersRef.child(userID)
+        //get the reference(pointer) to the database and the 'users' object within the database
+        val usersRef = FirebaseDatabase.getInstance().getReference("users")
+        //here get the reference to a new child using the userID of the current user that has been authenticated in the database
+        val userRef = usersRef.child(userID)
 
-            if (student != null && tutor == null && student.isTutor == false) {
-                userRef.setValue(student).addOnSuccessListener {
-                    showMessage(context, "Successfully registered!")
-                    //navigate back to the login page
-                    Navigation.findNavController(view).navigate(R.id.to_login)
-                    Log.d("TAG", "User was added to the realtime database")
-                }.addOnFailureListener { databaseError ->
-                    val error = databaseError.message
-                    showMessage(context, "Failed to store user data: $error")
-                    Log.e("TAG", "Failed to store user data in the database: $error", databaseError)
-                }
-            } else if (tutor != null && student == null && tutor.isTutor == true) {
-                userRef.setValue(tutor).addOnSuccessListener {
-                    showMessage(context, "Successfully registered!")
-                    //navigate back to the login page
-                    Navigation.findNavController(view).navigate(R.id.to_login)
-                    Log.d("TAG", "User was added to the realtime database")
-                }.addOnFailureListener { databaseError ->
-                    val error = databaseError.message
-                    showMessage(context, "Failed to store user data: $error")
-                    Log.e("TAG", "Failed to store user data in the database: $error", databaseError)
-                }
-            } else {
-                Log.d("storeUserInDatabase", "Could not parse if user is student or tutor")
+        if (student != null && tutor == null && student.isTutor == false) {
+            userRef.setValue(student).addOnSuccessListener {
+                showMessage(context, "Successfully registered!")
+                //navigate back to the login page
+                Navigation.findNavController(view).navigate(R.id.to_login)
+                Log.d("TAG", "User was added to the realtime database")
+            }.addOnFailureListener { databaseError ->
+                val error = databaseError.message
+                showMessage(context, "Failed to store user data: $error")
+                Log.e("TAG", "Failed to store user data in the database: $error", databaseError)
+            }
+        } else if (tutor != null && student == null && tutor.isTutor == true) {
+            userRef.setValue(tutor).addOnSuccessListener {
+                showMessage(context, "Successfully registered!")
+                //navigate back to the login page
+                Navigation.findNavController(view).navigate(R.id.to_login)
+                Log.d("TAG", "User was added to the realtime database")
+            }.addOnFailureListener { databaseError ->
+                val error = databaseError.message
+                showMessage(context, "Failed to store user data: $error")
+                Log.e("TAG", "Failed to store user data in the database: $error", databaseError)
             }
         } else {
-            Log.d("TAG", "UserID is null, $userID")
+            Log.d("storeUserInDatabase", "Could not parse if user is student or tutor")
         }
     }
 }
