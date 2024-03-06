@@ -5,8 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CalendarView
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,11 +28,13 @@ class calendar : Fragment() {
     private lateinit var view: View
     private lateinit var recyclerView: RecyclerView
     private lateinit var calendarView: CalendarView
+    private lateinit var tutoringSessionAdapter: TutoringSessionAdapter
+    private lateinit var refreshSessionButton: ImageButton
     private val tutoringSessions: MutableList<TutoringSession> = mutableListOf()
-    private val tutoringSessionAdapter = TutoringSessionAdapter(tutoringSessions)
-    //private lateinit var bookBtn: Button
+    private var selectedYear: Int = 0
+    private var selectedMonth: Int = 0
+    private var selectedDay: Int = 0
 
-    //private val clickable = view.findViewById<Button>(R.id.bookSession) //Button to book a session, needs to be initialized
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +53,9 @@ class calendar : Fragment() {
 
         // start the calendar functionality
         initCalendarView()
+
+        // start the refresh button functionality
+        initRefreshSessionButton()
 
         return view
     }
@@ -80,22 +88,30 @@ class calendar : Fragment() {
             }
         }
     }
-            private suspend fun checkIfUserIsTutor(userID: String): Boolean {
-                return withContext(Dispatchers.IO) {
-                    val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
-                    val snapshot = userRef.get().await()
+    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
+            val snapshot = userRef.get().await()
 
-                    if (snapshot.exists()) {
-                        return@withContext snapshot.child("tutor").getValue(Boolean::class.java) ?: false
-                    } else {
-                        throw Exception("User data not found.")
-                    }
-                }
+            if (snapshot.exists()) {
+                return@withContext snapshot.child("tutor").getValue(Boolean::class.java) ?: false
+            } else {
+                throw Exception("User data not found.")
             }
+        }
+    }
+
+    private fun initRefreshSessionButton() {
+        refreshSessionButton.setOnClickListener {
+            fetchTutoringSessions(selectedYear, selectedMonth, selectedDay)
+        }
+    }
 
     private fun initUIComponents() {
+        tutoringSessionAdapter = TutoringSessionAdapter(tutoringSessions)
         recyclerView = view.findViewById(R.id.calendarRecyclerView)
         calendarView = view.findViewById(R.id.calendarView)
+        refreshSessionButton = view.findViewById(R.id.refreshSessionsButton)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = tutoringSessionAdapter
     }
@@ -103,8 +119,11 @@ class calendar : Fragment() {
     private fun initCalendarView() {
         // set up calendar to listen when a new date is clicked
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            selectedYear = year
+            selectedMonth = month + 1
+            selectedDay = dayOfMonth
             // Fetch tutoring sessions for the selected date from Firebase
-            fetchTutoringSessions(year, month + 1, dayOfMonth)
+            fetchTutoringSessions(selectedYear, selectedMonth, selectedDay)
         }
     }
 
