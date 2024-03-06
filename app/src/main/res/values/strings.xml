@@ -20,6 +20,11 @@
     <string name="account_subjects_text">Subject(s): Math, English</string>
     <!-- .......................... -->
 
+    <!-- fragment_student_profile(student account) strings here -->
+    <string name ="student_grade_text">Grade: 2</string>
+    <string name="student_subjects_text">Subject(s): Music, Science</string>
+    <!-- .......................... -->
+
     <!-- fragment_calendar(calendar) strings here -->
     <string name="calendar_name_hint">Enter your name</string>
     <string name="calendar_sessions_title">Sessions</string>
