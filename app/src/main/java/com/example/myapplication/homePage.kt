@@ -5,7 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,12 +46,52 @@ class homePage : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
-
-        //start the bottom navigation bar functionality
-        navBarNavigation(view, findNavController())
-        
+        TutorCheck(view)
         return view
     }
+
+
+    private fun TutorCheck(view: View) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userID = currentUser?.uid
+
+        // check if the user is a student or tutor
+        if (userID != null) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val isTutor = checkIfUserIsTutor(userID)
+                    if (isTutor) {
+                        // start the bottom navigation bar functionality
+                        navBarNavigation(view, findNavController())
+                    }
+
+                    else {
+                        // start the bottom navigation bar functionality
+                        navBarNavigationStudents(view, findNavController())
+                    }
+
+                } catch (e: Exception) {
+                    CreateSessionHelper.showMessage(
+                        requireContext(),
+                        "Error reading user data. Please try again."
+                    )
+                }
+            }
+        }
+    }
+    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
+            val snapshot = userRef.get().await()
+
+            if (snapshot.exists()) {
+                return@withContext snapshot.child("tutor").getValue(Boolean::class.java) ?: false
+            } else {
+                throw Exception("User data not found.")
+            }
+        }
+    }
+
 
 
     companion object {
