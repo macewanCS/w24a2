@@ -228,6 +228,7 @@ object CreateSessionHelper {
     ) {
         val sessionsRef = FirebaseDatabase.getInstance().getReference("sessions")
         val newSessionRef = sessionsRef.push()
+        val newRegisteredStudents: List<String> = listOf()
 
         //set values based on page to add a new session
         val sessionDetails = mapOf(
@@ -237,7 +238,9 @@ object CreateSessionHelper {
             "grades" to grades,
             "date" to date,
             "time" to time,
-            "maxParticipants" to maxParticipants
+            "maxParticipants" to maxParticipants,
+            "sessionID" to newSessionRef.key,
+            "registeredStudents" to newRegisteredStudents
         )
 
         newSessionRef.setValue(sessionDetails)
