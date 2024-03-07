@@ -72,4 +72,5 @@
         android:padding="10dp"
         android:id="@+id/search_user_recycler_view"
         />
+
 </RelativeLayout>
