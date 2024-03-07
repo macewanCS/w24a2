@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.app.AlertDialog
-import android.graphics.Color.BLUE
 import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +11,6 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TimePicker
-import androidx.compose.ui.graphics.Color
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -161,8 +159,7 @@ class CreateSession : Fragment() {
         }
     }
     private fun showTimePickerDialog(isStartTime: Boolean) {
-        val dialogView =
-            LayoutInflater.from(requireContext()).inflate(R.layout.time_picker_dialog, null)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.time_picker_dialog, null)
         val timePicker = dialogView.findViewById<TimePicker>(R.id.timePicker)
         val title: String = if (isStartTime) {
             "Select start time"

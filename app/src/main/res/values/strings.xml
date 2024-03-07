@@ -8,6 +8,7 @@
     <string name="previous">Previous</string>
     <string name="Name">Name</string>
     <string name="save_event">Save Event</string>
+    <string name="invalid_user">Invalid Username</string>
 
     <!-- fragment_account(account) strings here -->
     <string name="account_sessions_button">Sessions</string>

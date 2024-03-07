@@ -155,5 +155,18 @@
         <action
             android:id="@+id/to_login"
             app:destination="@id/login" />
+        <action
+            android:id="@+id/to_search_user"
+            app:destination="@id/search_user" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/search_user"
+        android:name="com.example.myapplication.SearchUser"
+        android:label="fragment_search_user"
+        tools:layout="@layout/fragment_search_user" >
+        <action
+            android:id="@+id/to_student_profile"
+            app:destination="@id/student_profile" />
     </fragment>
 </navigation>
