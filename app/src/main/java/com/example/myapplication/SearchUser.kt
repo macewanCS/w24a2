@@ -21,4 +21,5 @@ class SearchUser : AppCompatActivity() {
         backButton = findViewById(R.id.back_btn)
         recyclerView = findViewById(R.id.search_user_recycler_view)
     }
+
 }
