@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +35,7 @@ class student_profile : Fragment() {
     private lateinit var profilePic: ImageView
     private lateinit var nameTextField: TextView
     private lateinit var logoutBtn: Button
+    private lateinit var searchUserButton: Button
     private var fullName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,7 @@ class student_profile : Fragment() {
         // initialize the pages components
         profilePic = view.findViewById(R.id.profilepic)
         nameTextField = view.findViewById(R.id.nameField)
+        searchUserButton = view.findViewById(R.id.SearchTutor)
         logoutBtn = view.findViewById(R.id.logout)
 
         // start the bottom navigation bar functionality
@@ -62,16 +65,27 @@ class student_profile : Fragment() {
         // setup the profile picture
         profilePictureSetup()
 
+        // Search User page functionality
+        searchUserSetup(view)
+
         // functionality for the logout button
         initLogoutButton(view)
 
         return view
     }
+
     private fun initLogoutButton(view: View) {
         logoutBtn.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_login)
         }
     }
+    private fun searchUserSetup(view: View) {
+        searchUserButton.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.to_search_user)
+        }
+    }
+
+
     private fun fetchAndUpdateFullName() {
         lifecycleScope.launch {
             try {
@@ -80,15 +94,22 @@ class student_profile : Fragment() {
                 }
 
                 nameTextField.text = "$fullName" // update UI here
-                this@student_profile.fullName = fullName.toString() // set the global variable for use later
+                this@student_profile.fullName =
+                    fullName.toString() // set the global variable for use later
             } catch (e: Exception) {
                 Log.e("TAG", "Error fetchin username")
             }
         }
     }
+
     private fun profilePictureSetup() {
         profilePic.setImageResource(R.drawable.student_pfp)
     }
+
+
+
+
+
 
     companion object {
         /**
