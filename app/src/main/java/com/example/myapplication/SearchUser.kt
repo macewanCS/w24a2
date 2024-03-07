@@ -23,10 +23,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SearchUser : Fragment() {
-    private var searchInput: EditText? = null
-    private var searchButton: ImageButton? = null
+    private lateinit var searchInput: EditText
+    private lateinit var searchButton: ImageButton
     private lateinit var backButton: ImageButton
-    private var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +39,12 @@ class SearchUser : Fragment() {
         backButton = view.findViewById(R.id.back_btn)
         recyclerView = view.findViewById(R.id.search_user_recycler_view)
 
+        // Show backButton and functionality
         backButtonSetup(view)
+
+        // Initialize search user functionality
+        searchUserSetup(view)
+        searchInput.requestFocus()
 
         return view
     }
@@ -48,6 +53,21 @@ class SearchUser : Fragment() {
         backButton.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_student_profile)
         }
+    }
+
+    private fun searchUserSetup(view: View) {
+        searchButton.setOnClickListener {
+            val searchTerm: String = searchInput.text.toString()
+            if (searchTerm.isEmpty()) {
+                searchInput.setError(getString(R.string.invalid_user))
+
+            }
+            setupSearchRecyclerView(searchTerm)
+        }
+    }
+
+    private fun setupSearchRecyclerView(searchTerm: String){
+        // Function body
     }
 
 
