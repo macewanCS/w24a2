@@ -97,7 +97,7 @@ class student_profile : Fragment() {
                 this@student_profile.fullName =
                     fullName.toString() // set the global variable for use later
             } catch (e: Exception) {
-                Log.e("TAG", "Error fetchin username")
+                Log.e("TAG", "Error fetching username")
             }
         }
     }

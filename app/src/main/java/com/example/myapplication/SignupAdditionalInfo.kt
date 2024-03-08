@@ -182,6 +182,7 @@ class SignupAdditionalInfo : Fragment() {
             chip.text = item
             chip.isCheckable = true
             chipGroup.addView(chip)
+            chip.setChipBackgroundColorResource(R.color.chip_background)
         }
     }
 

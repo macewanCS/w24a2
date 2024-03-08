@@ -54,7 +54,7 @@
         app:backgroundTint="#1F0EBC" />
 
     <Button
-        android:id="@+id/personalInformation"
+        android:id="@+id/tutor_personalInformation"
         android:layout_width="327dp"
         android:layout_height="65dp"
         android:text="@string/personal_information"
