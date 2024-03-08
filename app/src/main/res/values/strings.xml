@@ -22,7 +22,7 @@
     <!-- .......................... -->
 
     <!-- fragment_student_profile(student account) strings here -->
-    <string name ="student_grade_text">Grade: 2</string>
+    <string name="student_grade_text">Grade: 2</string>
     <string name="student_subjects_text">Subject(s): Music, Science</string>
     <!-- .......................... -->
 

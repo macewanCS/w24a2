@@ -26,6 +26,7 @@ class account : Fragment() {
     private lateinit var nameTextField: TextView
     private lateinit var createSessionBtn: Button
     private lateinit var logoutBtn: Button
+    private lateinit var personalInfoBtn: Button
     private var fullName: String? = null
 
     override fun onCreateView(
@@ -40,6 +41,7 @@ class account : Fragment() {
         nameTextField = view.findViewById(R.id.nameField)
         createSessionBtn = view.findViewById(R.id.createSession)
         logoutBtn = view.findViewById(R.id.logout)
+        personalInfoBtn = view.findViewById(R.id.tutor_personalInformation)
 
         // start the bottom navigation bar functionality
         navBarNavigation(view, findNavController())
@@ -51,6 +53,9 @@ class account : Fragment() {
         initCreateSessionButton(view)
         // functionality for the logout button
         initLogoutButton(view)
+        // functionality for the Personal Information button
+        personalInformationButtonSetup(view)
+
         return view
     }
         private fun initLogoutButton(view: View) {
@@ -58,6 +63,11 @@ class account : Fragment() {
                 Navigation.findNavController(view).navigate(R.id.to_login)
             }
 
+    }
+    private fun personalInformationButtonSetup(view: View) {
+        personalInfoBtn.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.to_tutorPersonalInformation)
+        }
     }
 
     private fun initCreateSessionButton(view: View) {
@@ -116,5 +126,6 @@ class account : Fragment() {
     private fun profilePictureSetup() {
         profilePic.setImageResource(R.drawable.pfp)
     }
+
 
 }
