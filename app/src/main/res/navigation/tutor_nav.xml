@@ -75,7 +75,7 @@
             app:exitAnim="@android:animator/fade_out"/>
         <action
             android:id="@+id/to_tutorPersonalInformation"
-            app:destination="@id/to_tutorPersonalInformation"/>
+            app:destination="@id/tutorPersonalInformation"/>
         <action
             android:id="@+id/action_account_to_tutorPersonalInformation3"
             app:destination="@id/tutorPersonalInformation"
@@ -181,5 +181,10 @@
         android:id="@+id/tutorPersonalInformation"
         android:name="com.example.myapplication.TutorPersonalInformation"
         android:label="fragment_tutor_personal_information"
-        tools:layout="@layout/fragment_tutor_personal_information" />
+        tools:layout="@layout/fragment_tutor_personal_information" >
+        <action
+            android:id="@+id/to_account"
+            app:destination="@id/account" />
+    </fragment>
+
 </navigation>
