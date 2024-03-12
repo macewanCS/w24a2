@@ -77,12 +77,7 @@
         <action
             android:id="@+id/to_tutorPersonalInformation"
             app:destination="@id/tutorPersonalInformation"/>
-        <!--
-        <action
-            android:id="@+id/action_account_to_tutorPersonalInformation3"
-            app:destination="@id/tutorPersonalInformation"
-            app:popUpTo="@id/tutorPersonalInformation" />
-        -->
+
     </fragment>
     <fragment
         android:id="@+id/signup"
