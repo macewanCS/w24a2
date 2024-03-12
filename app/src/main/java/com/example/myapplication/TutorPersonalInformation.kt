@@ -5,15 +5,17 @@
  */
 package com.example.myapplication
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-//import android.widget.Button
+import androidx.recyclerview.widget.RecyclerView
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,27 +24,24 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class TutorPersonalInformation : Fragment() {
-    private lateinit var backButton: ImageButton
+    private lateinit var backButton1: ImageButton
 
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_tutor_personal_information, container, false)
-        backButton = view.findViewById(R.id.account_back_btn)
+        backButton1 = view.findViewById(R.id.account_back_btn)
 
         // Show backButton and functionality
-        backButtonSetup(view)
+        backButtonSetup1(view)
 
         return view
     }
 
-
-    private fun backButtonSetup(view: View) {
-        backButton.setOnClickListener {
+    private fun backButtonSetup1(view: View) {
+        backButton1.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_account)
         }
     }
