@@ -75,11 +75,8 @@
             app:exitAnim="@android:animator/fade_out"/>
         <action
             android:id="@+id/to_tutorPersonalInformation"
-            app:destination="@id/to_tutorPersonalInformation"/>
-        <action
-            android:id="@+id/action_account_to_tutorPersonalInformation3"
-            app:destination="@id/tutorPersonalInformation"
-            app:popUpTo="@id/tutorPersonalInformation" />
+            app:destination="@id/tutorPersonalInformation"/>
+
 
     </fragment>
     <fragment
@@ -166,6 +163,9 @@
         <action
             android:id="@+id/to_search_user"
             app:destination="@id/search_user" />
+        <action
+            android:id="@+id/to_studentPersonalInformation"
+            app:destination="@id/studentPersonalInformation" />
     </fragment>
 
     <fragment
@@ -181,5 +181,18 @@
         android:id="@+id/tutorPersonalInformation"
         android:name="com.example.myapplication.TutorPersonalInformation"
         android:label="fragment_tutor_personal_information"
-        tools:layout="@layout/fragment_tutor_personal_information" />
+        tools:layout="@layout/fragment_tutor_personal_information" >
+        <action
+            android:id="@+id/to_account"
+            app:destination="@id/account" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentPersonalInformation"
+        android:name="com.example.myapplication.studentPersonalInformation"
+        android:label="fragment_student_personal_information"
+        tools:layout="@layout/fragment_student_personal_information" >
+        <action
+            android:id="@+id/to_student_profile"
+            app:destination="@id/student_profile" />
+    </fragment>
 </navigation>
