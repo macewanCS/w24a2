@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +35,8 @@ class student_profile : Fragment() {
     private lateinit var nameTextField: TextView
     private lateinit var logoutBtn: Button
     private lateinit var searchUserButton: Button
+    private lateinit var personalInfoBtn: Button
+
     private var fullName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +58,8 @@ class student_profile : Fragment() {
         nameTextField = view.findViewById(R.id.nameField)
         searchUserButton = view.findViewById(R.id.SearchTutor)
         logoutBtn = view.findViewById(R.id.logout)
+        personalInfoBtn = view.findViewById(R.id.student_personalInformation)
+
 
         // start the bottom navigation bar functionality
         navBarNavigationStudents(view, findNavController())
@@ -71,7 +74,15 @@ class student_profile : Fragment() {
         // functionality for the logout button
         initLogoutButton(view)
 
+        // functionality for the personal information button on student profile
+        personalInformationButtonSetup(view)
+
         return view
+    }
+    private fun personalInformationButtonSetup(view: View) {
+        personalInfoBtn.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.to_studentPersonalInformation)
+        }
     }
 
     private fun initLogoutButton(view: View) {
