@@ -119,7 +119,7 @@ class account : Fragment() {
                 nameTextField.text = "$fullName" // update UI here
                 this@account.fullName = fullName.toString() // set the global variable for use later
             } catch (e: Exception) {
-                Log.e("TAG", "Error fetchin username")
+                Log.e("TAG", "Error fetching username")
             }
         }
     }
