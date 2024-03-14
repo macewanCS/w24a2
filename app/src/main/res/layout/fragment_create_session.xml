@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
 <RelativeLayout
@@ -13,11 +14,13 @@
         android:id="@+id/selectSubjectLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_session_select_subjects_text"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"/>
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="258dp"
+        android:text="@string/create_session_select_subjects_text"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/selectedSubjectsChipGroup"
@@ -35,11 +38,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/selectedSubjectsChipGroup"
-        android:text="@string/create_session_select_grades_text"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"/>
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="260dp"
+        android:text="@string/create_session_select_grades_text"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/selectedGradesChipGroup"
@@ -56,12 +61,14 @@
         android:id="@+id/selectDateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_session_select_date_text"
-        android:textSize="18sp"
         android:layout_below="@id/selectedGradesChipGroup"
-        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"/>
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="301dp"
+        android:text="@string/create_session_select_date_text"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <DatePicker
         android:id="@+id/datePicker"
@@ -128,18 +135,19 @@
         android:layout_marginStart="16dp"
         android:textColor="@android:color/black"/>
 
+
     <EditText
         android:id="@+id/participantsCountEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/participantsCountLabel"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="21dp"
         android:layout_marginEnd="16dp"
-        android:inputType="number"
-        android:hint="@string/create_session_number_of_participants_hint"
         android:autofillHints="number"
-        android:textColorHint="@android:color/darker_gray"/>
+        android:hint="@string/create_session_number_of_participants_hint"
+        android:inputType="number"
+        android:textColorHint="@android:color/darker_gray" />
 
     <LinearLayout
         android:id="@+id/buttonLayout"
@@ -178,5 +186,6 @@
             android:textColor="@android:color/white"
             tools:ignore="ButtonStyle"/> <!-- remove this line if we want borderless buttons -->
     </LinearLayout>
-    </RelativeLayout>
+
+</RelativeLayout>
 </ScrollView>
