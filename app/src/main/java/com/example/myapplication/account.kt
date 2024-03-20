@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -29,6 +30,9 @@ class account : Fragment() {
     private lateinit var personalInfoBtn: Button
     private var fullName: String? = null
 
+    private lateinit var editFullName: EditText
+    private lateinit var viewFullName: TextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +46,9 @@ class account : Fragment() {
         createSessionBtn = view.findViewById(R.id.createSession)
         logoutBtn = view.findViewById(R.id.logout)
         personalInfoBtn = view.findViewById(R.id.tutor_personalInformation)
+
+        //editFullName = view.findViewById(R.id.tutorEditFullName)
+        //viewFullName = view.findViewById(R.id.tutorFullName)
 
         // start the bottom navigation bar functionality
         navBarNavigation(view, findNavController())
@@ -64,6 +71,7 @@ class account : Fragment() {
             }
 
     }
+
     private fun personalInformationButtonSetup(view: View) {
         personalInfoBtn.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_tutorPersonalInformation)

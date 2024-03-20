@@ -34,7 +34,10 @@ private const val ARG_PARAM2 = "param2"
 class TutorPersonalInformation : Fragment() {
     private lateinit var backButton1: ImageButton
     private lateinit var profilePic: ImageView
-    private lateinit var nameTextField: TextView
+    //private lateinit var nameTextField: TextView
+
+    private lateinit var editFullName: EditText
+    private lateinit var viewFullName: TextView
 
 
     @SuppressLint("MissingInflatedId")
@@ -46,7 +49,11 @@ class TutorPersonalInformation : Fragment() {
         val view = inflater.inflate(R.layout.fragment_tutor_personal_information, container, false)
         backButton1 = view.findViewById(R.id.account_back_btn)
         profilePic = view.findViewById(R.id.profilepic)
-        nameTextField = view.findViewById(R.id.editFullName)
+
+        /*
+        editFullName = view.findViewById(R.id.tutorEditFullName)
+        viewFullName = view.findViewById(R.id.tutorFullName)
+*/
 
         // Show backButton and functionality
         backButtonSetup1(view)
@@ -56,8 +63,13 @@ class TutorPersonalInformation : Fragment() {
 
         return view
     }
+    /*
+    private fun updateFullName(){
+        viewFullName.text = editFullName.text
 
-    private fun backButtonSetup1(view: View) {
+    }
+     */
+        private fun backButtonSetup1(view: View) {
         backButton1.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_account)
         }
