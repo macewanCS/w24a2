@@ -34,10 +34,22 @@ private const val ARG_PARAM2 = "param2"
 class TutorPersonalInformation : Fragment() {
     private lateinit var backButton1: ImageButton
     private lateinit var profilePic: ImageView
-    //private lateinit var nameTextField: TextView
 
+    //private lateinit var fullName: TextView
+
+    private lateinit var textFullName: TextView
     private lateinit var editFullName: EditText
-    private lateinit var viewFullName: TextView
+
+    private lateinit var confirmButton: Button
+
+    private lateinit var textEmailAddress: TextView
+    private lateinit var editEmailAddress: EditText
+
+    private lateinit var textPassword: TextView
+    private lateinit var editPassword: EditText
+
+    private lateinit var textPhoneNumber: TextView
+    private lateinit var editPhoneNumber: EditText
 
 
     @SuppressLint("MissingInflatedId")
@@ -50,10 +62,21 @@ class TutorPersonalInformation : Fragment() {
         backButton1 = view.findViewById(R.id.account_back_btn)
         profilePic = view.findViewById(R.id.profilepic)
 
-        /*
+        //fullName = view.findViewById(R.id.nameField)
+
         editFullName = view.findViewById(R.id.tutorEditFullName)
-        viewFullName = view.findViewById(R.id.tutorFullName)
-*/
+        textFullName = view.findViewById(R.id.tutorFullName)
+
+        textEmailAddress = view.findViewById(R.id.tutorEmail)
+        editEmailAddress = view.findViewById(R.id.tutorEditEmailAddress)
+
+        textPassword = view.findViewById(R.id.tutorPassword)
+        editPassword = view.findViewById(R.id.tutorEditTextPassword)
+
+        textPhoneNumber = view.findViewById(R.id.tutorPhoneNumber)
+        editPhoneNumber= view.findViewById(R.id.tutorEditPhoneNumber)
+
+        confirmButton = view.findViewById(R.id.tutorPersonalInformationBtn)
 
         // Show backButton and functionality
         backButtonSetup1(view)
@@ -61,14 +84,33 @@ class TutorPersonalInformation : Fragment() {
         // setup the profile picture
         profilePictureSetup()
 
+        //showPersonalInformation()
+
+        updateFullName()
+
         return view
     }
+
     /*
+    private fun showPersonalInformation(){
+        val showFullName = fullName.text.toString()
+        textFullName.text = showFullName
+    }
+
+     */
+
     private fun updateFullName(){
-        viewFullName.text = editFullName.text
+        confirmButton.setOnClickListener {
+            val fullNameStr = editFullName.text.toString()
+            textFullName.text = fullNameStr
+
+            textEmailAddress.text = editEmailAddress.text.toString()
+            textPassword.text = "Password has been changed"
+            textPhoneNumber.text = editPhoneNumber.text.toString()
+        }
 
     }
-     */
+
         private fun backButtonSetup1(view: View) {
         backButton1.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_account)
