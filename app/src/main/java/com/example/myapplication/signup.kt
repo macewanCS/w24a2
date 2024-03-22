@@ -53,7 +53,7 @@ class signup : Fragment() {
         isTutorBtn = view.findViewById(R.id.tutorCheckBtn)
     }
 
-    private fun initRegisterButton() {
+    fun initRegisterButton() {
         registerBtn.setOnClickListener {
             val firstName = firstNameInput.text.toString()
             val lastName = lastNameInput.text.toString()

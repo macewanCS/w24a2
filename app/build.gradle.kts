@@ -67,7 +67,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.google.firebase:firebase-database:20.3.1")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     implementation("org.mindrot:jbcrypt:0.4")
     testImplementation("junit:junit:4.13.2")
@@ -77,4 +77,26 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // Required -- JUnit 4 framework
+    val jUnitVersion = "4.13.2"
+    testImplementation("junit:junit:$jUnitVersion")
+    // Optional -- Robolectric environment
+    val androidXTestVersion = "1.5.0"
+    testImplementation("androidx.test:core:$androidXTestVersion")
+    // Optional -- Mockito framework
+    val mockitoVersion = "3.12.4"
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    // Optional -- mockito-kotlin
+    val mockitoKotlinVersion = "3.2.0"
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
+    // Optional -- Mockk framework
+    val mockkVersion = "1.12.0"
+    testImplementation ("io.mockk:mockk:$mockkVersion")
+    debugImplementation("androidx.fragment:fragment-testing:1.6.2")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("junit:junit:$jUnitVersion")
+    debugImplementation("androidx.fragment:fragment-testing:1.6.2")
+
 }
