@@ -66,7 +66,7 @@ class SignupAdditionalInfo : Fragment() {
         return view
     }
 
-    private fun initRegisterButton() {
+    internal fun initRegisterButton() {
         registerButton.setOnClickListener {
             val phoneNumber = getPhoneNumber()
             val preferredContactMethod = getPreferredContactMethod()
@@ -82,7 +82,7 @@ class SignupAdditionalInfo : Fragment() {
         }
     }
 
-    private fun checkInputFields(phoneNumber: String, preferredContactMethod: String): Boolean {
+    internal fun checkInputFields(phoneNumber: String, preferredContactMethod: String): Boolean {
         if (selectedGrades.isBlank()) {
             showMessage(requireContext(), "Please select at least one grade.")
             return false
@@ -111,7 +111,7 @@ class SignupAdditionalInfo : Fragment() {
         return true
     }
 
-    private fun initChipGroups() {
+    internal fun initChipGroups() {
         gradesChipGroup.setOnCheckedStateChangeListener { group, _ ->
             // update the selectedSubjects strings whenever a chip is selected or deselected
             selectedGrades = group.checkedChipIds
@@ -143,7 +143,7 @@ class SignupAdditionalInfo : Fragment() {
         }
     }
 
-    private fun getPreferredContactMethod(): String {
+    internal fun getPreferredContactMethod(): String {
         val checkedButtonID = preferredContactMethodGroup.checkedRadioButtonId
 
         val selectedContactMethod: String = when (checkedButtonID) {
@@ -154,14 +154,14 @@ class SignupAdditionalInfo : Fragment() {
         return selectedContactMethod
     }
 
-    private fun getPhoneNumber(): String {
+    internal fun getPhoneNumber(): String {
         val phoneNumber = phoneNumberEditText.text.toString()
         // check the value of the phone number
         Log.d("getPhoneNumber", "Phone Number: $phoneNumber")
         return phoneNumber
     }
 
-    private fun initUIComponents() {
+    internal fun initUIComponents() {
         backButton = view.findViewById(R.id.additionalInfoBackButton) ?: return
         gradesChipGroup = view.findViewById(R.id.additionalInfoGradesChipGroup) ?: return
         subjectsChipGroup = view.findViewById(R.id.additionalInfoSubjectsChipGroup) ?: return
@@ -176,7 +176,7 @@ class SignupAdditionalInfo : Fragment() {
 
     }
 
-    private fun initChipGroup(chipGroup: ChipGroup, items: Array<String>) {
+    internal fun initChipGroup(chipGroup: ChipGroup, items: Array<String>) {
         for (item in items) {
             val chip = Chip(requireContext())
             chip.text = item
@@ -186,7 +186,7 @@ class SignupAdditionalInfo : Fragment() {
         }
     }
 
-    private fun initBackButton() {
+    internal fun initBackButton() {
         backButton.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_signup)
         }
