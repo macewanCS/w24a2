@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -24,19 +28,87 @@ private const val ARG_PARAM2 = "param2"
  */
 class studentPersonalInformation : Fragment() {
     private lateinit var backButton: ImageButton
+    private lateinit var profilePic1: ImageView
 
+    private lateinit var textFullName1: TextView
+    private lateinit var editFullName1: EditText
+
+    private lateinit var confirmButton1: Button
+
+
+    private lateinit var textPhoneNumber1: TextView
+    private lateinit var editPhoneNumber1: EditText
+
+    private lateinit var textEmailAddress: TextView
+    private lateinit var editEmailAddress: EditText
+
+    private lateinit var textPassword: TextView
+    private lateinit var editPassword: EditText
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_tutor_personal_information, container, false)
+        val view = inflater.inflate(R.layout.fragment_student_personal_information, container, false)
         backButton = view.findViewById(R.id.account_back_btn)
+
+        profilePic1 = view.findViewById(R.id.profilepic1)
+
+        editFullName1 = view.findViewById(R.id.studentEditFullName)
+        textFullName1 = view.findViewById(R.id.studentFullName)
+
+        textPhoneNumber1 = view.findViewById(R.id.studentPhoneNumber)
+        editPhoneNumber1 = view.findViewById(R.id.studentEditPhoneNumber)
+
+        confirmButton1 = view.findViewById(R.id.studentPersonalInformationBtn)
+
+        textEmailAddress = view.findViewById(R.id.studentEmail)
+        editEmailAddress = view.findViewById(R.id.studentEditEmailAddress)
+
+        textPassword = view.findViewById(R.id.studentPassword)
+        editPassword = view.findViewById(R.id.studentEditTextPassword)
+
+        editEmailAddress.hint = "email address"
+        editPassword.hint = "*********"
 
         // Show backButton and functionality
         backButtonSetup1(view)
 
+        //showPersonalInformation()
+        updateFullName1()
+
+        cannotEditEmailAddress()
+        cannotEditPassword()
+
         return view
+    }
+    private fun updateFullName1(){
+        confirmButton1.setOnClickListener {
+
+            textFullName1.text = editFullName1.text.toString()
+            textPhoneNumber1.text = editPhoneNumber1.text.toString()
+        }
+
+    }
+
+    private fun cannotEditEmailAddress(){
+        editEmailAddress.setOnClickListener {
+            editEmailAddress.isEnabled = false
+            val message = "Cannot change Email Address"
+            textEmailAddress.setTextColor(Color.RED)
+            textEmailAddress.text = message
+        }
+    }
+
+    private fun cannotEditPassword() {
+        editPassword.setOnClickListener {
+            editPassword.isEnabled = false
+            val message = "Cannot change Password"
+            textPassword.setTextColor(Color.RED)
+            textPassword.text = message
+        }
     }
 
     private fun backButtonSetup1(view: View) {
