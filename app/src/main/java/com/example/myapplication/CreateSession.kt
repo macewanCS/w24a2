@@ -34,9 +34,9 @@ class CreateSession : Fragment() {
     private lateinit var maxParticipantsEditText: EditText
     private lateinit var view: View
     private lateinit var chipGroup: ChipGroup
-    private var selectedSubjects: String = ""
-    private var selectedGrades: String = ""
-    private var fullName: String = ""
+    var selectedSubjects: String = ""
+    var selectedGrades: String = ""
+    var fullName: String = ""
     private var sessionTime: String = ""
     private lateinit var startTime: String
     private lateinit var endTime: String
@@ -64,12 +64,12 @@ class CreateSession : Fragment() {
         createSession(view)
     }
 
-    private fun initCancelButton() {
+    internal fun initCancelButton() {
         cancelButton.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_account)
         }
     }
-    private fun createSession(view: View) {
+    internal fun createSession(view: View) {
         createSessionButton.setOnClickListener {
             val currentUser = FirebaseAuth.getInstance().currentUser
             val userID = currentUser?.uid
@@ -122,7 +122,7 @@ class CreateSession : Fragment() {
             }
         }
     }
-    private fun setUIComponents() {
+    internal fun setUIComponents() {
         // setup UI components here
         fetchFullName()
         startTimeButton = view.findViewById(R.id.selectStartTimeButton) ?: return
@@ -134,7 +134,7 @@ class CreateSession : Fragment() {
         maxParticipantsEditText = view.findViewById(R.id.participantsCountEditText) ?: return
 
     }
-    private fun fetchFullName() {
+    internal fun fetchFullName() {
         lifecycleScope.launch {
             try {
                 val fullName = withContext(Dispatchers.IO) {
@@ -148,7 +148,7 @@ class CreateSession : Fragment() {
             }
         }
     }
-    private fun initTimeSelection() {
+    internal fun initTimeSelection() {
         endTimeButton.isEnabled = false // disable this button until the start time is set
         // setup listeners here
         startTimeButton.setOnClickListener {
@@ -217,7 +217,7 @@ class CreateSession : Fragment() {
             dialog.dismiss()
         }
     }
-    private fun getSelectedSubjects() {
+    internal fun getSelectedSubjects() {
         val subjectsArray = arrayOf("English", "Mathematics", "Social Sciences",
             "Sciences", "Health", "Physical Education", "Music", "Crafts")
 
@@ -246,7 +246,7 @@ class CreateSession : Fragment() {
             Log.d("getSelectedSubjects", "Selected Subjects: $selectedSubjects")
         }
     }
-    private fun getSelectedGrades() {
+    internal fun getSelectedGrades() {
         val gradesArray: Array<String> = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "Graduate")
 
         val chipGroup = view.findViewById<ChipGroup>(R.id.selectedGradesChipGroup)
