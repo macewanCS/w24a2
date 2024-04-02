@@ -30,7 +30,7 @@ class calendar : Fragment() {
     private lateinit var calendarView: CalendarView
     private lateinit var tutoringSessionAdapter: TutoringSessionAdapter
     private lateinit var refreshSessionButton: ImageButton
-    private val tutoringSessions: MutableList<TutoringSession> = mutableListOf()
+    val tutoringSessions: MutableList<TutoringSession> = mutableListOf()
     private var selectedYear: Int = 0
     private var selectedMonth: Int = 0
     private var selectedDay: Int = 0
@@ -60,7 +60,7 @@ class calendar : Fragment() {
         return view
     }
 
-    private fun TutorCheck(view: View) {
+    internal fun TutorCheck(view: View) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userID = currentUser?.uid
 
@@ -88,7 +88,7 @@ class calendar : Fragment() {
             }
         }
     }
-    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+    internal suspend fun checkIfUserIsTutor(userID: String): Boolean {
         return withContext(Dispatchers.IO) {
             val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
             val snapshot = userRef.get().await()
@@ -101,13 +101,13 @@ class calendar : Fragment() {
         }
     }
 
-    private fun initRefreshSessionButton() {
+    internal fun initRefreshSessionButton() {
         refreshSessionButton.setOnClickListener {
             fetchTutoringSessions(selectedYear, selectedMonth, selectedDay)
         }
     }
 
-    private fun initUIComponents() {
+    internal fun initUIComponents() {
         tutoringSessionAdapter = TutoringSessionAdapter(tutoringSessions)
         recyclerView = view.findViewById(R.id.calendarRecyclerView)
         calendarView = view.findViewById(R.id.calendarView)
@@ -116,7 +116,7 @@ class calendar : Fragment() {
         recyclerView.adapter = tutoringSessionAdapter
     }
 
-    private fun initCalendarView() {
+    internal fun initCalendarView() {
         // set up calendar to listen when a new date is clicked
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             selectedYear = year
@@ -127,7 +127,7 @@ class calendar : Fragment() {
         }
     }
 
-    private fun fetchTutoringSessions(year: Int, month: Int, dayOfMonth: Int) {
+    internal fun fetchTutoringSessions(year: Int, month: Int, dayOfMonth: Int) {
         // clear any existing sessions to prevent duplicates
         tutoringSessions.clear()
         tutoringSessionAdapter.notifyDataSetChanged()
