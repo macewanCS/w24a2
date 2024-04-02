@@ -105,7 +105,7 @@ class account : Fragment() {
             Navigation.findNavController(view).navigate(R.id.to_createSession)
         }
     }
-    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+    internal suspend fun checkIfUserIsTutor(userID: String): Boolean {
         return withContext(Dispatchers.IO) {
             val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
             val snapshot = userRef.get().await()
@@ -117,7 +117,7 @@ class account : Fragment() {
             }
         }
     }
-    private fun fetchAndUpdateFullName() {
+    internal fun fetchAndUpdateFullName() {
         lifecycleScope.launch {
             try {
                 val fullName = withContext(Dispatchers.IO) {
@@ -131,7 +131,7 @@ class account : Fragment() {
             }
         }
     }
-    private fun profilePictureSetup() {
+    internal fun profilePictureSetup() {
         profilePic.setImageResource(R.drawable.pfp)
     }
 
