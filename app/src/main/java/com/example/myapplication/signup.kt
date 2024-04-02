@@ -17,13 +17,13 @@ import com.example.myapplication.SignUpHelper.encryptPassword
 import com.example.myapplication.SignUpHelper.validateInputFields
 
 class signup : Fragment() {
-    private lateinit var view: View
-    private lateinit var registerBtn: Button
-    private lateinit var firstNameInput: EditText
-    private lateinit var lastNameInput: EditText
-    private lateinit var emailInput: EditText
-    private lateinit var passwordInput: EditText
-    private lateinit var isTutorBtn: CheckBox
+    internal lateinit var view: View
+    internal lateinit var registerBtn: Button
+    internal lateinit var firstNameInput: EditText
+    internal lateinit var lastNameInput: EditText
+    internal lateinit var emailInput: EditText
+    internal lateinit var passwordInput: EditText
+    internal lateinit var isTutorBtn: CheckBox
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,7 +53,7 @@ class signup : Fragment() {
         isTutorBtn = view.findViewById(R.id.tutorCheckBtn)
     }
 
-    private fun initRegisterButton() {
+    internal fun initRegisterButton() {
         registerBtn.setOnClickListener {
             val firstName = firstNameInput.text.toString()
             val lastName = lastNameInput.text.toString()
