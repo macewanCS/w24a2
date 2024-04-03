@@ -6,6 +6,7 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -77,6 +79,9 @@ class TutorPersonalInformation : Fragment() {
         editPhoneNumber= view.findViewById(R.id.tutorEditPhoneNumber)
 
         confirmButton = view.findViewById(R.id.tutorPersonalInformationBtn)
+        editEmailAddress.hint = "email address"
+        editPassword.hint = "*********"
+
 
         // Show backButton and functionality
         backButtonSetup1(view)
@@ -85,8 +90,10 @@ class TutorPersonalInformation : Fragment() {
         profilePictureSetup()
 
         //showPersonalInformation()
-
         updateFullName()
+
+        cannotEditEmailAddress()
+        cannotEditPassword()
 
         return view
     }
@@ -104,11 +111,28 @@ class TutorPersonalInformation : Fragment() {
             val fullNameStr = editFullName.text.toString()
             textFullName.text = fullNameStr
 
-            textEmailAddress.text = editEmailAddress.text.toString()
-            textPassword.text = "Password has been changed"
             textPhoneNumber.text = editPhoneNumber.text.toString()
+
         }
 
+    }
+
+    private fun cannotEditEmailAddress(){
+        editEmailAddress.setOnClickListener {
+            editEmailAddress.isEnabled = false
+            val message = "Cannot change Email Address"
+            textEmailAddress.setTextColor(Color.RED)
+            textEmailAddress.text = message
+        }
+    }
+
+    private fun cannotEditPassword(){
+        editPassword.setOnClickListener {
+            editPassword.isEnabled = false
+            val message = "Cannot change Password"
+            textPassword.setTextColor(Color.RED)
+            textPassword.text = message
+        }
     }
 
         private fun backButtonSetup1(view: View) {
