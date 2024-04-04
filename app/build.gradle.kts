@@ -31,6 +31,10 @@ android {
             )
         }
     }
+
+    buildFeatures{
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -69,6 +73,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
+    implementation ("com.google.firebase:firebase-firestore-ktx:23.0.3")
     implementation("org.mindrot:jbcrypt:0.4")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.12.4")
