@@ -37,7 +37,7 @@ class TutorPersonalInformation : Fragment() {
     private lateinit var backButton1: ImageButton
     private lateinit var profilePic: ImageView
 
-    //private lateinit var fullName: TextView
+    //private lateinit var nameTextField: TextView
 
     private lateinit var textFullName: TextView
     private lateinit var editFullName: EditText
@@ -64,7 +64,7 @@ class TutorPersonalInformation : Fragment() {
         backButton1 = view.findViewById(R.id.account_back_btn)
         profilePic = view.findViewById(R.id.profilepic)
 
-        //fullName = view.findViewById(R.id.nameField)
+        //nameTextField = view.findViewById(R.id.nameField)
 
         editFullName = view.findViewById(R.id.tutorEditFullName)
         textFullName = view.findViewById(R.id.tutorFullName)
@@ -93,23 +93,21 @@ class TutorPersonalInformation : Fragment() {
         updateFullName()
 
         cannotEditEmailAddress()
+
         cannotEditPassword()
+
+        //fetchAndUpdateFullName()
 
         return view
     }
 
-    /*
-    private fun showPersonalInformation(){
-        val showFullName = fullName.text.toString()
-        textFullName.text = showFullName
-    }
 
-     */
 
     private fun updateFullName(){
         confirmButton.setOnClickListener {
             val fullNameStr = editFullName.text.toString()
             textFullName.text = fullNameStr
+
 
             textPhoneNumber.text = editPhoneNumber.text.toString()
 
@@ -144,7 +142,8 @@ class TutorPersonalInformation : Fragment() {
     private fun profilePictureSetup() {
         profilePic.setImageResource(R.drawable.pfp)
     }
-/*
+    /*
+
     private fun fetchAndUpdateFullName() {
         lifecycleScope.launch {
             try {
@@ -160,7 +159,7 @@ class TutorPersonalInformation : Fragment() {
         }
     }
 
- */
+*/
         companion object {
         /**
          * Use this factory method to create a new instance of
