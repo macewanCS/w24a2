@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.app.AlertDialog
+import android.app.TimePickerDialog
 import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.util.Log
@@ -158,8 +159,34 @@ class CreateSession : Fragment() {
             showTimePickerDialog(false)
         }
     }
+
+    private inner class CustomOnTimeSetListener(private val isStartTime: Boolean): TimePickerDialog.OnTimeSetListener{
+        override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+            val roundedMinute = (minute /15) * 15
+
+            if (isStartTime){
+                startTime = "$hourOfDay:${roundedMinute.toString().padStart(2,'0')}"
+                startTimeHour = hourOfDay
+                startTimeMinute = roundedMinute
+                endTimeButton.isEnabled = true
+                Log.d(
+                    "TimePickerDialog",
+                    "Start Time Set: $startTime, Hour: $startTimeHour, Minute: $startTimeMinute"
+                )
+            } else {
+                val amPm = if (hourOfDay < 12) "AM" else "PM"
+                val selectedHour = if (hourOfDay > 12) hourOfDay - 12 else hourOfDay
+
+                endTime = "$selectedHour:%{roundedMinute.toString().padStart(2, '0')}$amPm"
+
+                sessionTime = "$startTime-$endTime"
+                Log.d("TimePickerDialog", "End Time Set: $endTime, Session Time: $sessionTime")
+            }
+        }
+    }
     private fun showTimePickerDialog(isStartTime: Boolean) {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.time_picker_dialog, null)
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.time_picker_dialog, null)
         val timePicker = dialogView.findViewById<TimePicker>(R.id.timePicker)
         val title: String = if (isStartTime) {
             "Select start time"
@@ -179,44 +206,21 @@ class CreateSession : Fragment() {
         val dialog = builder.create()
         dialog.show()
 
-        // get the OK button and initially disable it
-        val okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        if (!isStartTime) {
-            okButton.isEnabled = false
-            timePicker.setOnTimeChangedListener { _, _, _ ->
-                okButton.isEnabled =
-                    (timePicker.hour > startTimeHour || (timePicker.hour == startTimeHour && timePicker.minute > startTimeMinute))
-            }
+        val customOnTimeSetListener = CustomOnTimeSetListener(isStartTime)
+        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+            val roundedMinute = (minute / 15) * 15
+            timePicker.minute = roundedMinute
         }
 
-        // check for a click on the ok button
-        okButton.setOnClickListener {
-            // Handle the selected start and end time
-            val selectedHour24hr = timePicker.hour
-            val selectedMinute = timePicker.minute
-            val amPm = if (selectedHour24hr < 12) "AM" else "PM"
-            val selectedHour =
-                if (selectedHour24hr > 12) selectedHour24hr - 12 else selectedHour24hr
-
-            if (isStartTime) {
-                startTime = "$selectedHour:${selectedMinute.toString().padStart(2, '0')}$amPm"
-                startTimeHour = selectedHour24hr
-                startTimeMinute = selectedMinute
-                endTimeButton.isEnabled =
-                    true // enable the end time button now that the start time is set
-                Log.d(
-                    "TimePickerDialog",
-                    "Start Time Set: $startTime, Hour: $startTimeHour, Minute: $startTimeMinute"
-                )
-            } else {
-                endTime = "$selectedHour:${selectedMinute.toString().padStart(2, '0')}$amPm"
-                // set sessionTime once both of the times are entered
-                sessionTime = "$startTime-$endTime"
-                Log.d("TimePickerDialog", "End Time Set: $endTime, Session Time: $sessionTime")
+        dialog.setOnShowListener {
+            val okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            okButton.setOnClickListener {
+                customOnTimeSetListener.onTimeSet(timePicker, timePicker.hour, timePicker.minute)
+                dialog.dismiss()
             }
-            dialog.dismiss()
         }
     }
+
     internal fun getSelectedSubjects() {
         val subjectsArray = arrayOf("English", "Mathematics", "Social Sciences",
             "Sciences", "Health", "Physical Education", "Music", "Crafts")
@@ -275,3 +279,4 @@ class CreateSession : Fragment() {
         }
     }
 }
+
