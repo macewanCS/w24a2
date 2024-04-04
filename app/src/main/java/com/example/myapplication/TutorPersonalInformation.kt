@@ -129,6 +129,7 @@ class TutorPersonalInformation : Fragment() {
             editPassword.isEnabled = false
             val message = "Cannot change Password"
             textPassword.setTextColor(Color.RED)
+
             textPassword.text = message
         }
     }

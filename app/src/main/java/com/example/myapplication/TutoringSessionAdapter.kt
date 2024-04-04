@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +41,15 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
                 holder.sessionDetails.text = holder.sessionDetails.text.toString()
                     .replace("Number of Students: ${tutoringSession.maxParticipants}", "Class Full")
                 sessionButton.isEnabled = false
+                sessionButton.setBackgroundColor(Color.BLACK)
+                val message = "Session Full"
+                sessionButton.text = message
             } else {
                 sessionButton.isEnabled = true
+                sessionButton.setBackgroundColor(Color.BLUE)
+                val message1 = "Book Session"
+                sessionButton.text = message1
+
             }
 
             sessionButton.setOnClickListener {
@@ -64,7 +72,13 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
                     // Update the maxParticipants and registered students in the 'sessions' node
                     updateRegisteredStudents(tutoringSession.sessionID, newMaxStudents, updatedRegisteredStudents)
                     showMessage(holder.itemView.context, "Successfully Registered for Class")
-                } else {
+
+                }
+                else if(tutoringSession.maxParticipants == 0){
+                    showMessage(holder.itemView.context, "Session is full")
+                }
+                else {
+                    //val message1 = "Class is full"
                     showMessage(holder.itemView.context, "Class is full")
                 }
             }
