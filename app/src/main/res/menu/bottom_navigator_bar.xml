@@ -5,21 +5,28 @@
         android:title="Calendar"
         android:id="@+id/calendar"
         android:icon="@drawable/calendar_icon"/>
+
+    <!--
     <item
 
         android:title="Assignments"
         android:id="@+id/assignments"
         android:icon="@drawable/assignment_icon"/>
+    -->
     <item
 
         android:title="Home"
         android:id="@+id/home"
         android:icon="@drawable/home_icon"/>
+
+    <!--
     <item
 
         android:title="Email"
         android:id="@+id/email"
         android:icon="@drawable/email_icon"/>
+    -->
+
     <item
         android:title="Account"
         android:id="@+id/account"

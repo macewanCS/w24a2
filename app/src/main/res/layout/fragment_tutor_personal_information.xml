@@ -59,6 +59,7 @@
         android:layout_marginBottom="532dp"
         android:ems="10"
         android:inputType="text"
+        android:textColor="@color/blue"
         android:text="Update your personal information below" />
 
     <TextView
