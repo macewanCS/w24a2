@@ -63,7 +63,7 @@ class SearchUser : Fragment() {
 
     private fun searchUserSetup(view: View) {
         for (firstName in titleList) {
-            val dataClass = DataClass(firstName)
+            val dataClass = DataClass(imageList[0], firstName)
             dataList.add(dataClass)
         }
 
@@ -81,7 +81,7 @@ class SearchUser : Fragment() {
                 val filteredDataList = arrayListOf<DataClass>()
 
                 for (firstName in filteredList) {
-                    val dataClass = DataClass(firstName)
+                    val dataClass = DataClass(imageList[0],firstName)
                     filteredDataList.add(dataClass)
                 }
                 // Set up RecyclerView adapter with filtered data
