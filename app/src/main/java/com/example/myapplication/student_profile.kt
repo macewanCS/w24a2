@@ -93,6 +93,7 @@ class student_profile : Fragment() {
     private fun searchUserSetup(view: View) {
         searchUserButton.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_search_user)
+
         }
     }
 

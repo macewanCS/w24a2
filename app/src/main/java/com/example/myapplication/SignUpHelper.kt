@@ -9,6 +9,8 @@ import com.example.myapplication.CreateSessionHelper.showMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import org.mindrot.jbcrypt.BCrypt
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 
 object SignUpHelper {
     fun encryptPassword(password: String): String {

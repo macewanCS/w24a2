@@ -4,91 +4,96 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.RecyclerView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchUser.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SearchUser : Fragment() {
-    private lateinit var searchInput: EditText
-    private lateinit var searchButton: ImageButton
-    private lateinit var backButton: ImageButton
+
     private lateinit var recyclerView: RecyclerView
+    private lateinit var dataList: ArrayList<DataClass>
+    private lateinit var imageList: Array<Int>
+    private lateinit var firestore: FirebaseFirestore
+    private var searchInput: EditText? = null
+    private var searchButton: ImageButton? = null
+    private var backButton: ImageButton? = null
+
+
+    private lateinit var titleList: List<String>
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search_user, container, false)
 
-        // initialize layout buttons and design
         searchInput = view.findViewById(R.id.search_username_input)
         searchButton = view.findViewById(R.id.search_user_btn)
         backButton = view.findViewById(R.id.back_btn)
         recyclerView = view.findViewById(R.id.search_user_recycler_view)
 
-        // Show backButton and functionality
-        backButtonSetup(view)
+        // Initialize Firestore
+        firestore = FirebaseFirestore.getInstance()
 
-        // Initialize search user functionality
+        // Initialize imageList and dataList
+        imageList = arrayOf(R.drawable.account_icon, R.drawable.account_icon)
+        dataList = arrayListOf()
+
+        // Fetch first names and populate RecyclerView
+        //titleList = fetchFirstNames()
+        titleList = listOf("User1", "John Smith", "Tutor1", "Student1", "Jheaney Perico")
+
+        // Initialize RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.setHasFixedSize(true)
+
+
+        backButtonSetup(view)
         searchUserSetup(view)
-        searchInput.requestFocus()
+
 
         return view
     }
 
+    private fun searchUserSetup(view: View) {
+        for (firstName in titleList) {
+            val dataClass = DataClass(firstName)
+            dataList.add(dataClass)
+        }
+
+        // Set up RecyclerView adapter
+        recyclerView.adapter = AdapterClass(dataList)
+
+        searchButton?.setOnClickListener {
+            val searchTerm: String = searchInput?.text.toString()
+            if (searchTerm.isEmpty()) {
+                searchInput?.setError(getString(R.string.invalid_user))
+
+            }
+            else {
+                val filteredList = titleList.filter { it.contains(searchTerm, ignoreCase = true) }
+                val filteredDataList = arrayListOf<DataClass>()
+
+                for (firstName in filteredList) {
+                    val dataClass = DataClass(firstName)
+                    filteredDataList.add(dataClass)
+                }
+                // Set up RecyclerView adapter with filtered data
+                recyclerView.adapter = AdapterClass(filteredDataList)
+            }
+        }
+    }
+
+
     private fun backButtonSetup(view: View) {
-        backButton.setOnClickListener {
+        backButton?.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.to_student_profile)
         }
     }
-
-    private fun searchUserSetup(view: View) {
-        searchButton.setOnClickListener {
-            val searchTerm: String = searchInput.text.toString()
-            if (searchTerm.isEmpty()) {
-                searchInput.setError(getString(R.string.invalid_user))
-
-            }
-            setupSearchRecyclerView(searchTerm)
-        }
-    }
-
-    private fun setupSearchRecyclerView(searchTerm: String){
-        // Function body
-    }
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment student_profile.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            student_profile().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
 }

@@ -177,6 +177,7 @@
             android:id="@+id/to_student_profile"
             app:destination="@id/student_profile" />
     </fragment>
+
     <fragment
         android:id="@+id/tutorPersonalInformation"
         android:name="com.example.myapplication.TutorPersonalInformation"
