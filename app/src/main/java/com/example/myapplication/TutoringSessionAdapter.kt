@@ -26,7 +26,8 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
             val tutoringSession = tutoringSessions[position]
 
             // create a string from all the session details from the database
-            val detailsString = "Name: ${tutoringSession.tutorName}\nDate: ${tutoringSession.date}\n" + "Time: ${tutoringSession.time}\nSubjects: ${tutoringSession.subjects}\nGrades: ${tutoringSession.grades}\nNumber of Students: ${tutoringSession.maxParticipants}"
+            val detailsString =
+                "Name: ${tutoringSession.tutorName}\nDate: ${tutoringSession.date}\n" + "Time: ${tutoringSession.time}\nSubjects: ${tutoringSession.subjects}\nGrades: ${tutoringSession.grades}\nNumber of Students: ${tutoringSession.maxParticipants}"
 
             // Set the formatted details string to the TextView
             holder.sessionDetails.text = detailsString
@@ -36,7 +37,8 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
 
             // Disable the "Book session" button and update the text if maxParticipants is zero
             if (tutoringSession.maxParticipants == 0) {
-                holder.sessionDetails.text = holder.sessionDetails.text.toString().replace("Number of Students: ${tutoringSession.maxParticipants}", "Class Full")
+                holder.sessionDetails.text = holder.sessionDetails.text.toString()
+                    .replace("Number of Students: ${tutoringSession.maxParticipants}", "Class Full")
                 sessionButton.isEnabled = false
             } else {
                 sessionButton.isEnabled = true
@@ -49,8 +51,13 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
 
                     // add the ID of the student to the registered students list
                     val existingRegisteredStudents = tutoringSession.registeredStudents
+                    val studentID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+                    if (existingRegisteredStudents.contains(studentID)){
+                        showMessage(holder.itemView.context, "Session already booked")
+                        return@setOnClickListener
+                    }
                     val updatedRegisteredStudents = existingRegisteredStudents.toMutableList().apply {
-                        val studentID = FirebaseAuth.getInstance().currentUser?.uid.toString()
                         add(studentID)
                     }
 
@@ -65,7 +72,7 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
 
         private fun updateRegisteredStudents(sessionID: String, newValue: Int, updatedRegisteredStudents: List<String>) {
             //update the maxParticipants node in the current session
-            val sessionRef = FirebaseDatabase.getInstance().getReference("sessions").child(sessionID)
+            val sessionRef = FirebaseDatabase.getInstance().getReference("sessions").child(sessionID.toString())
             sessionRef.child("maxParticipants").setValue(newValue)
             sessionRef.child("registeredStudents").setValue(updatedRegisteredStudents)
         }

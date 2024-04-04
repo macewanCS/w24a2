@@ -51,7 +51,7 @@ class homePage : Fragment() {
     }
 
 
-    private fun TutorCheck(view: View) {
+    internal fun TutorCheck(view: View) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userID = currentUser?.uid
 
@@ -79,7 +79,7 @@ class homePage : Fragment() {
             }
         }
     }
-    private suspend fun checkIfUserIsTutor(userID: String): Boolean {
+    internal suspend fun checkIfUserIsTutor(userID: String): Boolean {
         return withContext(Dispatchers.IO) {
             val userRef = FirebaseDatabase.getInstance().getReference("users").child(userID)
             val snapshot = userRef.get().await()
