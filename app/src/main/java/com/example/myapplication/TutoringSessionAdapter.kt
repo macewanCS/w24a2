@@ -65,7 +65,7 @@ class TutoringSessionAdapter(private val tutoringSessions: List<TutoringSession>
 
         private fun updateRegisteredStudents(sessionID: String, newValue: Int, updatedRegisteredStudents: List<String>) {
             //update the maxParticipants node in the current session
-            val sessionRef = FirebaseDatabase.getInstance().getReference("sessions").child(sessionID)
+            val sessionRef = FirebaseDatabase.getInstance().getReference("sessions").child(sessionID.toString())
             sessionRef.child("maxParticipants").setValue(newValue)
             sessionRef.child("registeredStudents").setValue(updatedRegisteredStudents)
         }
